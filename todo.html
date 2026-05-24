@@ -368,6 +368,31 @@
 
     .archive-empty-msg { text-align: center; color: #2da862; opacity: 0.5; padding: 28px 0; font-size: 0.9rem; }
 
+    /* ── スマホ対応 ── */
+    @media (max-width: 600px) {
+      body { padding: 0; background: #fff; }
+      .wrapper { flex-direction: column; gap: 0; max-width: 100%; }
+      .sidebar {
+        width: 100%; max-width: 100%; border-radius: 0;
+        box-shadow: none; border-bottom: 1px solid #eee;
+        padding: 10px 12px; flex-direction: row; flex-wrap: wrap;
+        gap: 4px; align-items: center;
+      }
+      .sidebar-title { display: none; }
+      .folder-item { padding: 5px 8px; font-size: 0.8rem; }
+      .folder-name { max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
+      .add-folder-btn { padding: 5px 8px; font-size: 0.8rem; }
+      .sidebar-divider { display: none; }
+      .logout-btn { padding: 5px 8px; font-size: 0.75rem; margin-top: 0; }
+      .main { border-radius: 0; box-shadow: none; padding: 14px 12px 24px; }
+      h1 { font-size: 1.1rem; }
+      .input-row input { font-size: 0.9rem; }
+      li { padding: 8px 2px; }
+      li .label { font-size: 0.88rem; }
+      .move-sel { display: none !important; }
+      .login-box { width: 90%; padding: 40px 24px; }
+    }
+
     /* ── ログイン画面 ── */
     #loginScreen {
       position: fixed; inset: 0;
@@ -450,8 +475,9 @@
     </div>
 
     <div class="input-area" id="inputArea">
-      <div class="input-row">
-        <input type="text" id="todoInput" placeholder="タスクを入力... (Shift+Enter で追加)" maxlength="100">
+      <div class="input-row" style="display:flex;gap:6px">
+        <input type="text" id="todoInput" placeholder="タスクを入力..." maxlength="100" style="flex:1">
+        <button onclick="addTodo()" style="padding:9px 14px;background:#4f6ef7;color:#fff;border:none;border-radius:8px;font-size:0.9rem;cursor:pointer;white-space:nowrap;flex-shrink:0">追加</button>
       </div>
       <div class="input-meta">
         <div class="meta-field" id="folderMetaField">
@@ -484,7 +510,7 @@
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
   import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyBUY8uoFtPPHfMaNWx4AbFMMp1anMA-U38",
@@ -502,8 +528,17 @@
   let lastSavedData  = '';
   let unsubSnap      = null;
 
-  document.getElementById('loginBtn').onclick  = () => signInWithPopup(auth, provider);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  document.getElementById('loginBtn').onclick = () => {
+    if (isMobile) {
+      signInWithRedirect(auth, provider);
+    } else {
+      signInWithPopup(auth, provider);
+    }
+  };
   document.getElementById('logoutBtn').onclick = () => signOut(auth);
+  // スマホでリダイレクト後のログイン結果を処理
+  getRedirectResult(auth).catch(() => {});
 
   const UNCATEGORIZED  = '未分類';
   const PRIORITY_CLASS = { high: 'p-high', mid: 'p-mid', low: 'p-low', none: 'p-none' };
@@ -1094,6 +1129,14 @@
     todos = todos.filter(t => scope ? (t.folder !== scope || !t.done) : !t.done);
     render();
   }
+
+  // type="module"ではonclick=""からグローバル関数を呼べないため、windowに登録
+  window.showAddFolder    = showAddFolder;
+  window.cancelAddFolder  = cancelAddFolder;
+  window.confirmAddFolder = confirmAddFolder;
+  window.setFilter        = setFilter;
+  window.clearDone        = clearDone;
+  window.addTodo          = addTodo;
 
   document.getElementById('todoInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && e.shiftKey) addTodo();
