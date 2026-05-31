@@ -185,6 +185,8 @@
       transition: all 0.15s;
     }
     .filters button.active { background: #1a1a2e; border-color: #1a1a2e; color: #fff; }
+#sortPriorityBtn { border-color: #f90; color: #f90; margin-left: 6px; }
+#sortPriorityBtn.active { background: #f90; border-color: #f90; color: #fff; }
 
     .input-area { margin-bottom: 14px; }
     .input-row input {
@@ -472,6 +474,7 @@
       <button class="active" onclick="setFilter('all', this)">すべて</button>
       <button onclick="setFilter('active', this)">未完了</button>
       <button onclick="setFilter('done', this)">完了済み</button>
+      <button id="sortPriorityBtn" onclick="toggleSortPriority()">優先度順</button>
     </div>
 
     <div class="input-area" id="inputArea">
@@ -546,6 +549,7 @@
 
   let activeFolder = 'all';
   let filter = 'all';
+  let sortByPriority = false;
   let dragSrcIdx = null;
 
   function save() {
@@ -814,19 +818,25 @@
   });
 
   /* ── タスク描画 ── */
+  const PRIORITY_ORDER = { high: 1, mid: 2, low: 3, none: 4 };
+
   function visibleTodos() {
     let items = todos.map((t, i) => ({ t, i }));
     if (activeFolder !== 'all') items = items.filter(({ t }) => t.folder === activeFolder);
     if (filter === 'active') items = items.filter(({ t }) => !t.done);
     if (filter === 'done')   items = items.filter(({ t }) => t.done);
-    // 日付付きタスクを日付順にソート（日付なしは末尾）
-    items.sort((a, b) => {
-      const da = extractDate(a.t.text), db = extractDate(b.t.text);
-      if (da && db) return da - db;
-      if (da) return -1;
-      if (db) return 1;
-      return 0;
-    });
+    if (sortByPriority) {
+      items.sort((a, b) => (PRIORITY_ORDER[a.t.priority || 'none']) - (PRIORITY_ORDER[b.t.priority || 'none']));
+    } else {
+      // 日付付きタスクを日付順にソート（日付なしは末尾）
+      items.sort((a, b) => {
+        const da = extractDate(a.t.text), db = extractDate(b.t.text);
+        if (da && db) return da - db;
+        if (da) return -1;
+        if (db) return 1;
+        return 0;
+      });
+    }
     return items;
   }
 
@@ -855,7 +865,23 @@
       empty.style.display = 'block';
     } else {
       empty.style.display = 'none';
-      if (activeFolder === 'all') {
+      if (activeFolder === 'all' && sortByPriority) {
+        const PRIORITY_GROUPS = [
+          { key: 'high', label: '🔴 高' },
+          { key: 'mid',  label: '🟡 中' },
+          { key: 'low',  label: '🔵 低' },
+          { key: 'none', label: '⚪ なし' },
+        ];
+        PRIORITY_GROUPS.forEach(({ key, label }) => {
+          const groupItems = items.filter(({ t }) => (t.priority || 'none') === key);
+          if (groupItems.length === 0) return;
+          const header = document.createElement('div');
+          header.className = 'section-header';
+          header.innerHTML = `<span class="sec-name">${label}</span><span class="sec-count">${groupItems.length}件</span>`;
+          list.appendChild(header);
+          groupItems.forEach(({ t, i }) => renderItem(list, t, i));
+        });
+      } else if (activeFolder === 'all') {
         const grouped = {};
         folders.forEach(f => { grouped[f] = []; });
         items.forEach(item => {
@@ -1110,8 +1136,14 @@
 
   function setFilter(f, btn) {
     filter = f;
-    document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filters button:not(#sortPriorityBtn)').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
+    render();
+  }
+
+  function toggleSortPriority() {
+    sortByPriority = !sortByPriority;
+    document.getElementById('sortPriorityBtn').classList.toggle('active', sortByPriority);
     render();
   }
 
@@ -1126,16 +1158,22 @@
   }
 
   // type="module"ではonclick=""からグローバル関数を呼べないため、windowに登録
-  window.showAddFolder    = showAddFolder;
-  window.cancelAddFolder  = cancelAddFolder;
-  window.confirmAddFolder = confirmAddFolder;
-  window.setFilter        = setFilter;
-  window.clearDone        = clearDone;
-  window.addTodo          = addTodo;
+  window.showAddFolder      = showAddFolder;
+  window.cancelAddFolder    = cancelAddFolder;
+  window.confirmAddFolder   = confirmAddFolder;
+  window.setFilter          = setFilter;
+  window.clearDone          = clearDone;
+  window.addTodo            = addTodo;
+  window.toggleSortPriority = toggleSortPriority;
 
   document.getElementById('todoInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.shiftKey) addTodo();
-    else if (e.key === 'Enter') e.preventDefault();
+    if (e.key === 'Enter') { e.preventDefault(); addTodo(); }
+  });
+  document.getElementById('taskFolderSelect').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); addTodo(); }
+  });
+  document.getElementById('taskPrioritySelect').addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); addTodo(); }
   });
 
   document.addEventListener('keydown', e => {
