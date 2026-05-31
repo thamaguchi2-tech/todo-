@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -185,8 +186,8 @@
       transition: all 0.15s;
     }
     .filters button.active { background: #1a1a2e; border-color: #1a1a2e; color: #fff; }
-#sortPriorityBtn { border-color: #f90; color: #f90; margin-left: 6px; }
-#sortPriorityBtn.active { background: #f90; border-color: #f90; color: #fff; }
+    #sortPriorityBtn { border-color: #f90; color: #f90; margin-left: 6px; }
+    #sortPriorityBtn.active { background: #f90; border-color: #f90; color: #fff; }
 
     .input-area { margin-bottom: 14px; }
     .input-row input {
@@ -597,18 +598,15 @@
       list.appendChild(makeFolderItem(f, f, '📁', count, f !== UNCATEGORIZED));
     });
 
-    // アーカイブ項目（区切り線の後）
     const archiveDiv = makeFolderItem('アーカイブ', 'archive', '🗄', archivedTodos.length, false);
     archiveDiv.classList.add('archive-item');
 
-    // サイドバーに区切り線+アーカイブを追加
     const archiveDivider = document.createElement('div');
     archiveDivider.className = 'sidebar-divider';
     archiveDivider.style.marginTop = '6px';
     list.appendChild(archiveDivider);
     list.appendChild(archiveDiv);
 
-    // フォルダ選択（すべて表示時のみ）
     const sel   = document.getElementById('taskFolderSelect');
     const field = document.getElementById('folderMetaField');
     if (activeFolder === 'all') {
@@ -620,7 +618,6 @@
       field.classList.add('hidden');
     }
 
-    // ヘッダーラベル
     const lbl = document.getElementById('activeFolderLabel');
     if (activeFolder === 'all') {
       lbl.textContent = '';
@@ -633,7 +630,6 @@
       lbl.className = 'active-folder-label';
     }
 
-    // 入力欄・フィルターをアーカイブ時は非表示
     const isArchive = activeFolder === 'archive';
     document.getElementById('inputArea').style.display  = isArchive ? 'none' : '';
     document.getElementById('filterBar').style.display  = isArchive ? 'none' : '';
@@ -679,7 +675,6 @@
     return div;
   }
 
-  /* ── フォルダクリック＆ダブルクリック ── */
   let _clickTimer = null;
   let _clickKey   = null;
 
@@ -691,7 +686,6 @@
 
     const key = item.dataset.key;
 
-    // アーカイブはシングルクリックのみ
     if (key === 'archive') {
       clearTimeout(_clickTimer); _clickTimer = null; _clickKey = null;
       activeFolder = 'archive';
@@ -758,7 +752,6 @@
     input.addEventListener('blur', () => setTimeout(commit, 80));
   }
 
-  /* ── フォルダ追加・削除 ── */
   function showAddFolder() {
     document.getElementById('folderInputBox').classList.add('visible');
     document.getElementById('folderNameInput').focus();
@@ -781,13 +774,11 @@
       : `「${name}」をアーカイブします。\n（以前に個別アーカイブしたタスクも自動的にこのフォルダにまとめられます）`;
     if (!confirm(msg)) return;
     const today = new Date().toISOString().slice(0, 10);
-    // 残っているアクティブタスクを通常アーカイブ（特別フラグなし）
     todos.filter(t => t.folder === name).forEach(t => {
       archivedTodos.unshift({ ...t, done: true, archivedAt: today });
     });
     todos   = todos.filter(t => t.folder !== name);
     folders = folders.filter(f => f !== name);
-    // フォルダをアーカイブ済みリストに追加
     if (!archivedFolders.includes(name)) archivedFolders.push(name);
     sortFolders();
     if (activeFolder === name) activeFolder = 'all';
@@ -828,7 +819,6 @@
     if (sortByPriority) {
       items.sort((a, b) => (PRIORITY_ORDER[a.t.priority || 'none']) - (PRIORITY_ORDER[b.t.priority || 'none']));
     } else {
-      // 日付付きタスクを日付順にソート（日付なしは末尾）
       items.sort((a, b) => {
         const da = extractDate(a.t.text), db = extractDate(b.t.text);
         if (da && db) return da - db;
@@ -918,10 +908,7 @@
     empty.className = 'empty';
     empty.textContent = 'タスクはありません';
 
-    // archivedFolders に入っているフォルダ名 → フォルダグループ
-    // それ以外 → 日付グループ
     if (archivedFolders.length > 0) {
-      // フォルダごとの最新アーカイブ日を求めてソート
       const folderDateMap = {};
       archivedFolders.forEach(f => { folderDateMap[f] = ''; });
       archivedTodos.forEach(t => {
@@ -960,7 +947,6 @@
       });
     }
 
-    // 日付グループ（アーカイブ済みフォルダに属さないタスク、新しい順）
     const individualItems = archivedTodos.map((t, i) => ({ t, i }))
       .filter(({ t }) => !archivedFolders.includes(t.folder));
     if (individualItems.length > 0) {
@@ -1012,7 +998,6 @@
     permDel.onclick = () => { archivedTodos.splice(archIdx, 1); render(); };
 
     if (isFolderGroup) {
-      // フォルダグループ内はフォルダバッジ不要、日付のみ
       li.append(dot, label, dateEl, restoreBtn, permDel);
     } else {
       const badge = document.createElement('span');
@@ -1025,7 +1010,6 @@
 
   function restoreFromArchive(archIdx) {
     const t = archivedTodos[archIdx];
-    // フォルダが削除されていたら未分類へ
     const targetFolder = folders.includes(t.folder) ? t.folder : UNCATEGORIZED;
     todos.push({ text: t.text, done: false, folder: targetFolder, priority: t.priority || 'none' });
     archivedTodos.splice(archIdx, 1);
@@ -1157,7 +1141,6 @@
     render();
   }
 
-  // type="module"ではonclick=""からグローバル関数を呼べないため、windowに登録
   window.showAddFolder      = showAddFolder;
   window.cancelAddFolder    = cancelAddFolder;
   window.confirmAddFolder   = confirmAddFolder;
@@ -1167,13 +1150,14 @@
   window.toggleSortPriority = toggleSortPriority;
 
   document.getElementById('todoInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); addTodo(); }
+    if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
+    else if (e.key === 'Enter') e.preventDefault();
   });
   document.getElementById('taskFolderSelect').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); addTodo(); }
+    if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
   });
   document.getElementById('taskPrioritySelect').addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); addTodo(); }
+    if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
   });
 
   document.addEventListener('keydown', e => {
@@ -1188,10 +1172,8 @@
     }
   }, true);
 
-  // ログイン状態を監視
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // ログイン済み → アプリ表示
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainWrapper').style.display = '';
       currentDataRef = doc(db, 'users', user.uid);
@@ -1221,7 +1203,6 @@
         render();
       });
     } else {
-      // 未ログイン → ログイン画面表示
       document.getElementById('loginScreen').style.display = 'flex';
       document.getElementById('mainWrapper').style.display = 'none';
       currentDataRef = null;
@@ -1231,3 +1212,6 @@
 </script>
 </body>
 </html>
+```
+
+コードブロックの**右上のコピーボタン**を押してください。押せたら次のステップに進みます。
