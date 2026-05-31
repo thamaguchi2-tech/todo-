@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -26,7 +25,6 @@
       align-items: flex-start;
     }
 
-    /* ── 左：サイドバー ── */
     .sidebar {
       flex-shrink: 0;
       width: max-content;
@@ -154,7 +152,6 @@
     }
     .folder-input-box .ok { background: #4f6ef7; color: #fff; }
 
-    /* ── 右：メインパネル ── */
     .main {
       flex: 1;
       background: #fff;
@@ -174,7 +171,7 @@
     .active-folder-label { font-size: 0.85rem; color: #4f6ef7; font-weight: 600; }
     .active-folder-label.archive { color: #2da862; }
 
-    .filters { display: flex; gap: 6px; margin-bottom: 16px; }
+    .filters { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
     .filters button {
       padding: 4px 12px;
       border: 1.5px solid #ddd;
@@ -188,6 +185,8 @@
     .filters button.active { background: #1a1a2e; border-color: #1a1a2e; color: #fff; }
     #sortPriorityBtn { border-color: #f90; color: #f90; margin-left: 6px; }
     #sortPriorityBtn.active { background: #f90; border-color: #f90; color: #fff; }
+    #sortDateBtn { border-color: #4f6ef7; color: #4f6ef7; margin-left: 2px; }
+    #sortDateBtn.active { background: #4f6ef7; border-color: #4f6ef7; color: #fff; }
 
     .input-area { margin-bottom: 14px; }
     .input-row input {
@@ -294,7 +293,6 @@
 
     .empty { text-align: center; color: #ccc; padding: 28px 0; font-size: 0.9rem; }
 
-    /* ── アーカイブ ── */
     .archive-section-header {
       display: flex;
       align-items: center;
@@ -318,60 +316,33 @@
     .archive-section-header:hover .folder-perm-del-btn { display: block; }
     .folder-perm-del-btn:hover { background: #fff0f0; }
 
-    li.archive-li {
-      background: #fafafa;
-      cursor: default;
-    }
+    li.archive-li { background: #fafafa; cursor: default; }
     li.archive-li:hover { background: #f3faf6; }
     li.archive-li .label { color: #888; text-decoration: line-through; }
 
     .arch-folder-badge {
-      font-size: 0.7rem;
-      background: #eef0ff;
-      color: #7080cc;
-      border-radius: 10px;
-      padding: 1px 7px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      font-size: 0.7rem; background: #eef0ff; color: #7080cc;
+      border-radius: 10px; padding: 1px 7px; white-space: nowrap; flex-shrink: 0;
     }
 
-    .arch-date {
-      font-size: 0.7rem;
-      color: #ccc;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
+    .arch-date { font-size: 0.7rem; color: #ccc; white-space: nowrap; flex-shrink: 0; }
 
     .restore-btn {
-      background: none;
-      border: 1px solid #cce8d8;
-      color: #2da862;
-      font-size: 0.72rem;
-      cursor: pointer;
-      padding: 2px 7px;
-      border-radius: 4px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: background 0.12s;
+      background: none; border: 1px solid #cce8d8; color: #2da862;
+      font-size: 0.72rem; cursor: pointer; padding: 2px 7px;
+      border-radius: 4px; white-space: nowrap; flex-shrink: 0; transition: background 0.12s;
     }
     .restore-btn:hover { background: #e8f5ee; }
 
     .perm-del-btn {
-      background: none;
-      border: none;
-      color: #ddd;
-      font-size: 1rem;
-      cursor: pointer;
-      padding: 2px 4px;
-      border-radius: 4px;
-      flex-shrink: 0;
+      background: none; border: none; color: #ddd; font-size: 1rem;
+      cursor: pointer; padding: 2px 4px; border-radius: 4px; flex-shrink: 0;
       transition: color 0.15s, background 0.15s;
     }
     .perm-del-btn:hover { color: #e55; background: #fff0f0; }
 
     .archive-empty-msg { text-align: center; color: #2da862; opacity: 0.5; padding: 28px 0; font-size: 0.9rem; }
 
-    /* ── スマホ対応 ── */
     @media (max-width: 600px) {
       body { padding: 0; background: #fff; }
       .wrapper { flex-direction: column; gap: 0; max-width: 100%; }
@@ -396,12 +367,9 @@
       .login-box { width: 90%; padding: 40px 24px; }
     }
 
-    /* ── ログイン画面 ── */
     #loginScreen {
-      position: fixed; inset: 0;
-      background: #f0f2f5;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 100;
+      position: fixed; inset: 0; background: #f0f2f5;
+      display: flex; align-items: center; justify-content: center; z-index: 100;
     }
     .login-box {
       background: #fff; border-radius: 16px;
@@ -420,21 +388,18 @@
     .google-login-btn:hover { background: #f8f8f8; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .google-login-btn img { width: 20px; height: 20px; }
 
-    /* ── ログアウトボタン ── */
     .logout-btn {
       display: flex; align-items: center; gap: 5px;
       padding: 7px 8px; border-radius: 8px; border: none;
       background: none; cursor: pointer; color: #ccc;
       font-size: 0.78rem; width: 100%; text-align: left;
-      transition: background 0.12s, color 0.12s; white-space: nowrap;
-      margin-top: 4px;
+      transition: background 0.12s, color 0.12s; white-space: nowrap; margin-top: 4px;
     }
     .logout-btn:hover { background: #fff0f0; color: #e55; }
   </style>
 </head>
 <body>
 
-<!-- ログイン画面 -->
 <div id="loginScreen">
   <div class="login-box">
     <h2>📋 Todoリスト</h2>
@@ -448,7 +413,6 @@
 
 <div class="wrapper" id="mainWrapper" style="display:none">
 
-  <!-- 左：フォルダサイドバー -->
   <div class="sidebar">
     <div class="sidebar-title">フォルダ</div>
     <div id="folderList"></div>
@@ -464,7 +428,6 @@
     </div>
   </div>
 
-  <!-- 右：メインパネル -->
   <div class="main">
     <div class="main-header">
       <h1>Todoリスト</h1>
@@ -476,6 +439,7 @@
       <button onclick="setFilter('active', this)">未完了</button>
       <button onclick="setFilter('done', this)">完了済み</button>
       <button id="sortPriorityBtn" onclick="toggleSortPriority()">優先度順</button>
+      <button id="sortDateBtn" onclick="toggleSortDate()">日付順</button>
     </div>
 
     <div class="input-area" id="inputArea">
@@ -533,9 +497,7 @@
   let unsubSnap      = null;
 
   document.getElementById('loginBtn').onclick = () => {
-    signInWithPopup(auth, provider).catch(() => {
-      signInWithRedirect(auth, provider);
-    });
+    signInWithPopup(auth, provider).catch(() => signInWithRedirect(auth, provider));
   };
   document.getElementById('logoutBtn').onclick = () => signOut(auth);
 
@@ -550,7 +512,7 @@
 
   let activeFolder = 'all';
   let filter = 'all';
-  let sortByPriority = false;
+  let sortMode = 'none';
   let dragSrcIdx = null;
 
   function save() {
@@ -561,7 +523,6 @@
     setDoc(currentDataRef, { folders, todos, archivedTodos, archivedFolders });
   }
 
-  /* ── 日付ソート ── */
   function extractDate(name) {
     let m;
     m = name.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
@@ -587,7 +548,6 @@
     return `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
   }
 
-  /* ── サイドバー描画 ── */
   function renderSidebar() {
     const list = document.getElementById('folderList');
     list.innerHTML = '';
@@ -600,7 +560,6 @@
 
     const archiveDiv = makeFolderItem('アーカイブ', 'archive', '🗄', archivedTodos.length, false);
     archiveDiv.classList.add('archive-item');
-
     const archiveDivider = document.createElement('div');
     archiveDivider.className = 'sidebar-divider';
     archiveDivider.style.marginTop = '6px';
@@ -620,14 +579,11 @@
 
     const lbl = document.getElementById('activeFolderLabel');
     if (activeFolder === 'all') {
-      lbl.textContent = '';
-      lbl.className = 'active-folder-label';
+      lbl.textContent = ''; lbl.className = 'active-folder-label';
     } else if (activeFolder === 'archive') {
-      lbl.textContent = '— アーカイブ';
-      lbl.className = 'active-folder-label archive';
+      lbl.textContent = '— アーカイブ'; lbl.className = 'active-folder-label archive';
     } else {
-      lbl.textContent = `— ${activeFolder}`;
-      lbl.className = 'active-folder-label';
+      lbl.textContent = `— ${activeFolder}`; lbl.className = 'active-folder-label';
     }
 
     const isArchive = activeFolder === 'archive';
@@ -644,31 +600,23 @@
     div.dataset.deletable = deletable ? 'true' : 'false';
 
     const iconEl = document.createElement('span');
-    iconEl.className = 'folder-icon';
-    iconEl.textContent = icon;
-
+    iconEl.className = 'folder-icon'; iconEl.textContent = icon;
     const nameEl = document.createElement('span');
-    nameEl.className = 'folder-name';
-    nameEl.textContent = label;
-
+    nameEl.className = 'folder-name'; nameEl.textContent = label;
     const cntEl = document.createElement('span');
-    cntEl.className = 'folder-count';
-    cntEl.textContent = count;
+    cntEl.className = 'folder-count'; cntEl.textContent = count;
 
     div.append(iconEl, nameEl, cntEl);
 
     if (deletable) {
       const archBtn = document.createElement('button');
-      archBtn.className = 'folder-archive-btn';
-      archBtn.textContent = '🗄';
+      archBtn.className = 'folder-archive-btn'; archBtn.textContent = '🗄';
       archBtn.title = 'フォルダごとアーカイブ';
       archBtn.onclick = e => { e.stopPropagation(); folderArchive(key); };
       div.appendChild(archBtn);
 
       const delBtn = document.createElement('button');
-      delBtn.className = 'folder-del-btn';
-      delBtn.textContent = '✕';
-      delBtn.title = '削除';
+      delBtn.className = 'folder-del-btn'; delBtn.textContent = '✕'; delBtn.title = '削除';
       delBtn.onclick = e => { e.stopPropagation(); deleteFolder(key); };
       div.appendChild(delBtn);
     }
@@ -683,31 +631,26 @@
     if (!item) return;
     if (e.target.closest('.folder-del-btn')) return;
     if (e.target.closest('.folder-archive-btn')) return;
-
     const key = item.dataset.key;
 
     if (key === 'archive') {
       clearTimeout(_clickTimer); _clickTimer = null; _clickKey = null;
-      activeFolder = 'archive';
-      render();
-      return;
+      activeFolder = 'archive'; render(); return;
     }
 
     if (_clickTimer && _clickKey === key) {
       clearTimeout(_clickTimer); _clickTimer = null; _clickKey = null;
-      activeFolder = key;
-      render();
+      activeFolder = key; render();
       if (item.dataset.deletable === 'true') {
         const fresh = [...document.querySelectorAll('.folder-item')].find(el => el.dataset.key === key);
         if (fresh) startFolderEdit(fresh);
       }
     } else {
       clearTimeout(_clickTimer);
-      _clickKey   = key;
+      _clickKey = key;
       _clickTimer = setTimeout(() => {
         _clickTimer = null; _clickKey = null;
-        activeFolder = key;
-        render();
+        activeFolder = key; render();
       }, 250);
     }
   });
@@ -720,15 +663,13 @@
     const delBtn = div.querySelector('.folder-del-btn');
 
     div.onclick = null;
-    nameEl.style.display = 'none';
-    cntEl.style.display  = 'none';
+    nameEl.style.display = 'none'; cntEl.style.display = 'none';
     if (delBtn) delBtn.style.display = 'none';
 
     const input = document.createElement('input');
     input.type = 'text'; input.className = 'folder-edit-input';
     input.value = key; input.maxLength = 30;
-    div.insertBefore(input, cntEl);
-    input.focus(); input.select();
+    div.insertBefore(input, cntEl); input.focus(); input.select();
 
     let done = false;
     const commit = () => {
@@ -770,8 +711,8 @@
   function folderArchive(name) {
     const count = todos.filter(t => t.folder === name).length;
     const msg = count > 0
-      ? `「${name}」のタスク ${count} 件をすべてアーカイブし、フォルダを削除します。\n（以前に個別アーカイブしたタスクも自動的にこのフォルダにまとめられます）`
-      : `「${name}」をアーカイブします。\n（以前に個別アーカイブしたタスクも自動的にこのフォルダにまとめられます）`;
+      ? `「${name}」のタスク ${count} 件をすべてアーカイブし、フォルダを削除します。`
+      : `「${name}」をアーカイブします。`;
     if (!confirm(msg)) return;
     const today = new Date().toISOString().slice(0, 10);
     todos.filter(t => t.folder === name).forEach(t => {
@@ -808,7 +749,6 @@
     if (e.key === 'Escape') cancelAddFolder();
   });
 
-  /* ── タスク描画 ── */
   const PRIORITY_ORDER = { high: 1, mid: 2, low: 3, none: 4 };
 
   function visibleTodos() {
@@ -816,9 +756,9 @@
     if (activeFolder !== 'all') items = items.filter(({ t }) => t.folder === activeFolder);
     if (filter === 'active') items = items.filter(({ t }) => !t.done);
     if (filter === 'done')   items = items.filter(({ t }) => t.done);
-    if (sortByPriority) {
+    if (sortMode === 'priority') {
       items.sort((a, b) => (PRIORITY_ORDER[a.t.priority || 'none']) - (PRIORITY_ORDER[b.t.priority || 'none']));
-    } else {
+    } else if (sortMode === 'date') {
       items.sort((a, b) => {
         const da = extractDate(a.t.text), db = extractDate(b.t.text);
         if (da && db) return da - db;
@@ -832,7 +772,6 @@
 
   function render() {
     renderSidebar();
-
     const list     = document.getElementById('todoList');
     const empty    = document.getElementById('empty');
     const stats    = document.getElementById('stats');
@@ -840,10 +779,7 @@
 
     list.innerHTML = '';
 
-    if (activeFolder === 'archive') {
-      renderArchive(list, empty);
-      return;
-    }
+    if (activeFolder === 'archive') { renderArchive(list, empty); return; }
 
     const scope     = activeFolder === 'all' ? todos : todos.filter(t => t.folder === activeFolder);
     const doneCount = scope.filter(t => t.done).length;
@@ -855,7 +791,7 @@
       empty.style.display = 'block';
     } else {
       empty.style.display = 'none';
-      if (activeFolder === 'all' && sortByPriority) {
+      if (activeFolder === 'all' && sortMode === 'priority') {
         const PRIORITY_GROUPS = [
           { key: 'high', label: '🔴 高' },
           { key: 'mid',  label: '🟡 中' },
@@ -870,6 +806,26 @@
           header.innerHTML = `<span class="sec-name">${label}</span><span class="sec-count">${groupItems.length}件</span>`;
           list.appendChild(header);
           groupItems.forEach(({ t, i }) => renderItem(list, t, i));
+        });
+      } else if (activeFolder === 'all' && sortMode === 'date') {
+        const dateGrouped = {};
+        items.forEach(item => {
+          const d = extractDate(item.t.text);
+          const key = d ? formatDate(d.toISOString()) : '日付なし';
+          if (!dateGrouped[key]) dateGrouped[key] = [];
+          dateGrouped[key].push(item);
+        });
+        const sortedKeys = Object.keys(dateGrouped).sort((a, b) => {
+          if (a === '日付なし') return 1;
+          if (b === '日付なし') return -1;
+          return a.localeCompare(b);
+        });
+        sortedKeys.forEach(key => {
+          const header = document.createElement('div');
+          header.className = 'section-header';
+          header.innerHTML = `<span class="sec-name">📅 ${key}</span><span class="sec-count">${dateGrouped[key].length}件</span>`;
+          list.appendChild(header);
+          dateGrouped[key].forEach(({ t, i }) => renderItem(list, t, i));
         });
       } else if (activeFolder === 'all') {
         const grouped = {};
@@ -891,18 +847,15 @@
         items.forEach(({ t, i }) => renderItem(list, t, i));
       }
     }
-
     save();
   }
 
-  /* ── アーカイブ描画 ── */
   function renderArchive(list, empty) {
     if (archivedTodos.length === 0 && archivedFolders.length === 0) {
       empty.style.display = 'block';
       empty.className = 'archive-empty-msg';
       empty.textContent = 'アーカイブはありません';
-      save();
-      return;
+      save(); return;
     }
     empty.style.display = 'none';
     empty.className = 'empty';
@@ -916,31 +869,18 @@
           folderDateMap[t.folder] = t.archivedAt || '';
         }
       });
-      const sortedFolders = [...archivedFolders].sort((a, b) =>
-        folderDateMap[b].localeCompare(folderDateMap[a])
-      );
+      const sortedFolders = [...archivedFolders].sort((a, b) => folderDateMap[b].localeCompare(folderDateMap[a]));
       sortedFolders.forEach(fname => {
         const items = archivedTodos.map((t, i) => ({ t, i })).filter(({ t }) => t.folder === fname);
         const header = document.createElement('div');
         header.className = 'archive-section-header folder-group';
-
-        const nameEl = document.createElement('span');
-        nameEl.className = 'sec-name';
-        nameEl.textContent = `📁 ${fname}`;
-
-        const cntEl = document.createElement('span');
-        cntEl.className = 'sec-count';
-        cntEl.textContent = `${items.length}件`;
-
-        const spacer = document.createElement('span');
-        spacer.className = 'sec-spacer';
-
+        const nameEl = document.createElement('span'); nameEl.className = 'sec-name'; nameEl.textContent = `📁 ${fname}`;
+        const cntEl  = document.createElement('span'); cntEl.className = 'sec-count'; cntEl.textContent = `${items.length}件`;
+        const spacer = document.createElement('span'); spacer.className = 'sec-spacer';
         const delBtn = document.createElement('button');
-        delBtn.className = 'folder-perm-del-btn';
-        delBtn.textContent = '完全削除';
+        delBtn.className = 'folder-perm-del-btn'; delBtn.textContent = '完全削除';
         delBtn.title = 'このフォルダとすべてのタスクを完全に削除';
         delBtn.onclick = () => deleteFolderFromArchive(fname);
-
         header.append(nameEl, cntEl, spacer, delBtn);
         list.appendChild(header);
         items.forEach(({ t, i }) => renderArchiveItem(list, t, i, true));
@@ -965,44 +905,32 @@
         dateGrouped[date].forEach(({ t, i }) => renderArchiveItem(list, t, i, false));
       });
     }
-
     save();
   }
 
   function renderArchiveItem(list, todo, archIdx, isFolderGroup) {
     const li = document.createElement('li');
     li.classList.add('archive-li');
-
     const dot = document.createElement('span');
     dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none']}`;
     dot.style.cursor = 'default';
-
     const label = document.createElement('span');
-    label.className = 'label';
-    label.textContent = todo.text;
-
+    label.className = 'label'; label.textContent = todo.text;
     const dateEl = document.createElement('span');
     dateEl.className = 'arch-date';
     dateEl.textContent = formatDate(todo.archivedAt || new Date().toISOString().slice(0,10));
-
     const restoreBtn = document.createElement('button');
-    restoreBtn.className = 'restore-btn';
-    restoreBtn.textContent = '復元';
+    restoreBtn.className = 'restore-btn'; restoreBtn.textContent = '復元';
     restoreBtn.title = '元のフォルダに戻す';
     restoreBtn.onclick = () => restoreFromArchive(archIdx);
-
     const permDel = document.createElement('button');
-    permDel.className = 'perm-del-btn';
-    permDel.textContent = '×';
-    permDel.title = '完全に削除';
+    permDel.className = 'perm-del-btn'; permDel.textContent = '×'; permDel.title = '完全に削除';
     permDel.onclick = () => { archivedTodos.splice(archIdx, 1); render(); };
-
     if (isFolderGroup) {
       li.append(dot, label, dateEl, restoreBtn, permDel);
     } else {
       const badge = document.createElement('span');
-      badge.className = 'arch-folder-badge';
-      badge.textContent = todo.folder;
+      badge.className = 'arch-folder-badge'; badge.textContent = todo.folder;
       li.append(dot, label, badge, dateEl, restoreBtn, permDel);
     }
     list.appendChild(li);
@@ -1023,8 +951,7 @@
     li.draggable = true;
 
     const handle = document.createElement('span');
-    handle.className = 'drag-handle';
-    handle.textContent = '⠿';
+    handle.className = 'drag-handle'; handle.textContent = '⠿';
 
     const dot = document.createElement('span');
     dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none']}`;
@@ -1032,8 +959,7 @@
     dot.onclick = () => {
       const cur  = todos[realIdx].priority || 'none';
       const next = PRIORITY_CYCLE[(PRIORITY_CYCLE.indexOf(cur) + 1) % PRIORITY_CYCLE.length];
-      todos[realIdx].priority = next;
-      render();
+      todos[realIdx].priority = next; render();
     };
 
     const cb = document.createElement('input');
@@ -1041,19 +967,16 @@
     cb.onchange = () => { todos[realIdx].done = !todos[realIdx].done; render(); };
 
     const label = document.createElement('span');
-    label.className = 'label';
-    label.textContent = todo.text;
+    label.className = 'label'; label.textContent = todo.text;
     label.title = 'ダブルクリックで編集';
     label.ondblclick = () => startEdit(li, realIdx, label, hint, del);
 
     const hint = document.createElement('span');
-    hint.className = 'edit-hint';
-    hint.style.display = 'none';
+    hint.className = 'edit-hint'; hint.style.display = 'none';
     hint.textContent = 'Enter保存 / Esc取消';
 
     const moveSel = document.createElement('select');
-    moveSel.className = 'move-sel';
-    moveSel.title = 'フォルダを移動';
+    moveSel.className = 'move-sel'; moveSel.title = 'フォルダを移動';
     folders.forEach(f => {
       const opt = document.createElement('option');
       opt.value = f; opt.textContent = f;
@@ -1081,7 +1004,6 @@
         dragSrcIdx = null; render();
       }
     });
-
     list.appendChild(li);
   }
 
@@ -1100,7 +1022,6 @@
     input.addEventListener('blur', commit);
   }
 
-  /* ── タスク追加 ── */
   function addTodo() {
     const input = document.getElementById('todoInput');
     const text  = input.value.trim();
@@ -1113,25 +1034,32 @@
     input.value = '';
     if (filter === 'done') {
       filter = 'all';
-      document.querySelectorAll('.filters button').forEach((b, i) => b.classList.toggle('active', i === 0));
+      document.querySelectorAll('.filters button:not(#sortPriorityBtn):not(#sortDateBtn)').forEach((b, i) => b.classList.toggle('active', i === 0));
     }
     render();
   }
 
   function setFilter(f, btn) {
     filter = f;
-    document.querySelectorAll('.filters button:not(#sortPriorityBtn)').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filters button:not(#sortPriorityBtn):not(#sortDateBtn)').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
     render();
   }
 
   function toggleSortPriority() {
-    sortByPriority = !sortByPriority;
-    document.getElementById('sortPriorityBtn').classList.toggle('active', sortByPriority);
+    sortMode = sortMode === 'priority' ? 'none' : 'priority';
+    document.getElementById('sortPriorityBtn').classList.toggle('active', sortMode === 'priority');
+    document.getElementById('sortDateBtn').classList.toggle('active', false);
     render();
   }
 
-  /* ── 完了済みをアーカイブ ── */
+  function toggleSortDate() {
+    sortMode = sortMode === 'date' ? 'none' : 'date';
+    document.getElementById('sortDateBtn').classList.toggle('active', sortMode === 'date');
+    document.getElementById('sortPriorityBtn').classList.toggle('active', false);
+    render();
+  }
+
   function clearDone() {
     const today = new Date().toISOString().slice(0, 10);
     const scope = activeFolder === 'all' ? null : activeFolder;
@@ -1148,6 +1076,7 @@
   window.clearDone          = clearDone;
   window.addTodo            = addTodo;
   window.toggleSortPriority = toggleSortPriority;
+  window.toggleSortDate     = toggleSortDate;
 
   document.getElementById('todoInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
