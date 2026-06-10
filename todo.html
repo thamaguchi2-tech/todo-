@@ -379,23 +379,41 @@
       border-radius: 2px;
       flex-shrink: 0;
     }
-    .chart-row {
+    .chart-sort-btns {
       display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 8px;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+    .chart-sort-btn {
+      flex: 1;
+      padding: 3px 0;
+      border: 1.5px solid #ddd;
+      background: #fff;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      color: #aaa;
+      transition: all 0.15s;
+    }
+    .chart-sort-btn.active { background: #1a1a2e; border-color: #1a1a2e; color: #fff; }
+    .chart-row {
+      margin-bottom: 10px;
+    }
+    .chart-row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 3px;
     }
     .chart-folder-name {
       font-size: 0.76rem;
       color: #555;
-      width: 68px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      flex-shrink: 0;
+      word-break: break-all;
+      flex: 1;
     }
     .chart-bar-wrap {
-      flex: 1;
+      width: 100%;
       height: 13px;
       background: #f3f4f8;
       border-radius: 6px;
@@ -406,8 +424,7 @@
     .chart-count {
       font-size: 0.71rem;
       color: #bbb;
-      width: 22px;
-      text-align: right;
+      white-space: nowrap;
       flex-shrink: 0;
     }
     .chart-empty {
@@ -550,6 +567,10 @@
 
   <div class="chart-panel" id="chartPanel">
     <div class="chart-panel-title">フォルダ別タスク</div>
+    <div class="chart-sort-btns">
+      <button class="chart-sort-btn active" id="chartSortCount" onclick="setChartSort('count')">数量順</button>
+      <button class="chart-sort-btn" id="chartSortDate" onclick="setChartSort('date')">日付順</button>
+    </div>
     <div class="chart-legend">
       <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#e44"></div>高</div>
       <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#f90"></div>中</div>
@@ -856,6 +877,15 @@
     return items;
   }
 
+  let chartSortMode = 'count';
+
+  function setChartSort(mode) {
+    chartSortMode = mode;
+    document.getElementById('chartSortCount').classList.toggle('active', mode === 'count');
+    document.getElementById('chartSortDate').classList.toggle('active', mode === 'date');
+    renderChart();
+  }
+
   function renderChart() {
     const content = document.getElementById('chartContent');
     if (!content) return;
@@ -868,25 +898,36 @@
       folderData[f][p]++;
       folderData[f].total++;
     });
-    const sorted = Object.entries(folderData)
-      .filter(([, d]) => d.total > 0)
-      .sort((a, b) => b[1].total - a[1].total);
+    let sorted = Object.entries(folderData).filter(([, d]) => d.total > 0);
+    if (chartSortMode === 'date') {
+      sorted.sort((a, b) => {
+        const da = extractDate(a[0]), db = extractDate(b[0]);
+        if (da && db) return da - db;
+        if (da) return -1;
+        if (db) return 1;
+        return a[0].localeCompare(b[0]);
+      });
+    } else {
+      sorted.sort((a, b) => b[1].total - a[1].total);
+    }
     if (sorted.length === 0) {
       content.innerHTML = '<div class="chart-empty">タスクなし</div>';
       return;
     }
-    const maxTotal = sorted[0][1].total;
+    const maxTotal = Math.max(...sorted.map(([, d]) => d.total));
     const pct = v => `${(v / maxTotal * 100).toFixed(1)}%`;
     content.innerHTML = sorted.map(([fname, d]) => `
       <div class="chart-row">
-        <span class="chart-folder-name" title="${fname}">${fname}</span>
+        <div class="chart-row-header">
+          <span class="chart-folder-name">${fname}</span>
+          <span class="chart-count">${d.total}件</span>
+        </div>
         <div class="chart-bar-wrap">
           ${d.high > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.high)};background:#e44" title="高: ${d.high}件"></div>` : ''}
           ${d.mid  > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.mid)};background:#f90" title="中: ${d.mid}件"></div>` : ''}
           ${d.low  > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.low)};background:#4f6ef7" title="低: ${d.low}件"></div>` : ''}
           ${d.none > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.none)};background:#ddd" title="なし: ${d.none}件"></div>` : ''}
         </div>
-        <span class="chart-count">${d.total}</span>
       </div>
     `).join('');
   }
@@ -1191,6 +1232,7 @@
     render();
   }
 
+  window.setChartSort       = setChartSort;
   window.showAddFolder      = showAddFolder;
   window.cancelAddFolder    = cancelAddFolder;
   window.confirmAddFolder   = confirmAddFolder;
