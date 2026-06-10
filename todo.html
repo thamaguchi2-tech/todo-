@@ -21,7 +21,7 @@
       display: flex;
       gap: 16px;
       width: 100%;
-      max-width: 860px;
+      max-width: 1180px;
       align-items: flex-start;
     }
 
@@ -343,7 +343,82 @@
 
     .archive-empty-msg { text-align: center; color: #2da862; opacity: 0.5; padding: 28px 0; font-size: 0.9rem; }
 
+    .chart-panel {
+      flex-shrink: 0;
+      width: 240px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+      padding: 20px 14px;
+    }
+    .chart-panel-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #aaa;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      white-space: nowrap;
+    }
+    .chart-legend {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .chart-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.68rem;
+      color: #888;
+    }
+    .chart-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .chart-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .chart-folder-name {
+      font-size: 0.76rem;
+      color: #555;
+      width: 68px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .chart-bar-wrap {
+      flex: 1;
+      height: 13px;
+      background: #f3f4f8;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+    }
+    .chart-bar-seg { height: 100%; }
+    .chart-count {
+      font-size: 0.71rem;
+      color: #bbb;
+      width: 22px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .chart-empty {
+      text-align: center;
+      color: #ccc;
+      padding: 20px 0;
+      font-size: 0.85rem;
+    }
+
     @media (max-width: 600px) {
+      .chart-panel { display: none; }
       body { padding: 0; background: #fff; }
       .wrapper { flex-direction: column; gap: 0; max-width: 100%; }
       .sidebar {
@@ -471,6 +546,17 @@
 
     <ul id="todoList"></ul>
     <div class="empty" id="empty">タスクはありません</div>
+  </div>
+
+  <div class="chart-panel" id="chartPanel">
+    <div class="chart-panel-title">フォルダ別タスク</div>
+    <div class="chart-legend">
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#e44"></div>高</div>
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#f90"></div>中</div>
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#4f6ef7"></div>低</div>
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#ddd"></div>なし</div>
+    </div>
+    <div id="chartContent"></div>
   </div>
 
 </div>
@@ -770,8 +856,44 @@
     return items;
   }
 
+  function renderChart() {
+    const content = document.getElementById('chartContent');
+    if (!content) return;
+    const folderData = {};
+    folders.forEach(f => { folderData[f] = { high: 0, mid: 0, low: 0, none: 0, total: 0 }; });
+    todos.forEach(t => {
+      const f = t.folder || UNCATEGORIZED;
+      if (!folderData[f]) folderData[f] = { high: 0, mid: 0, low: 0, none: 0, total: 0 };
+      const p = t.priority || 'none';
+      folderData[f][p]++;
+      folderData[f].total++;
+    });
+    const sorted = Object.entries(folderData)
+      .filter(([, d]) => d.total > 0)
+      .sort((a, b) => b[1].total - a[1].total);
+    if (sorted.length === 0) {
+      content.innerHTML = '<div class="chart-empty">タスクなし</div>';
+      return;
+    }
+    const maxTotal = sorted[0][1].total;
+    const pct = v => `${(v / maxTotal * 100).toFixed(1)}%`;
+    content.innerHTML = sorted.map(([fname, d]) => `
+      <div class="chart-row">
+        <span class="chart-folder-name" title="${fname}">${fname}</span>
+        <div class="chart-bar-wrap">
+          ${d.high > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.high)};background:#e44" title="高: ${d.high}件"></div>` : ''}
+          ${d.mid  > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.mid)};background:#f90" title="中: ${d.mid}件"></div>` : ''}
+          ${d.low  > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.low)};background:#4f6ef7" title="低: ${d.low}件"></div>` : ''}
+          ${d.none > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.none)};background:#ddd" title="なし: ${d.none}件"></div>` : ''}
+        </div>
+        <span class="chart-count">${d.total}</span>
+      </div>
+    `).join('');
+  }
+
   function render() {
     renderSidebar();
+    renderChart();
     const list     = document.getElementById('todoList');
     const empty    = document.getElementById('empty');
     const stats    = document.getElementById('stats');
