@@ -21,10 +21,11 @@
       display: flex;
       gap: 16px;
       width: 100%;
-      max-width: 1180px;
+      max-width: 860px;
       align-items: flex-start;
     }
 
+    /* ── 左：サイドバー ── */
     .sidebar {
       flex-shrink: 0;
       width: max-content;
@@ -152,6 +153,101 @@
     }
     .folder-input-box .ok { background: #4f6ef7; color: #fff; }
 
+    .folder-summary {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f0;
+    }
+    .folder-summary-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #aaa;
+      margin-bottom: 10px;
+      white-space: nowrap;
+    }
+    .folder-summary-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .folder-summary-tabs button {
+      padding: 6px 8px;
+      border: 1.5px solid #ddd;
+      background: #fff;
+      border-radius: 18px;
+      color: #999;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .folder-summary-tabs button.active {
+      background: #1a1a2e;
+      border-color: #1a1a2e;
+      color: #fff;
+    }
+    .folder-summary-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 10px;
+      color: #777;
+      font-size: 0.75rem;
+    }
+    .folder-summary-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .folder-summary-row {
+      margin-bottom: 11px;
+      cursor: pointer;
+    }
+    .folder-summary-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+      color: #555;
+      font-size: 0.82rem;
+      line-height: 1.25;
+    }
+    .folder-summary-name {
+      flex: 1;
+      min-width: 0;
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .folder-summary-count {
+      color: #bbb;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .folder-summary-bar {
+      display: flex;
+      width: 100%;
+      height: 11px;
+      overflow: hidden;
+      background: #f0f1f7;
+      border-radius: 999px;
+    }
+    .folder-summary-seg { height: 100%; flex-shrink: 0; }
+    .folder-summary-empty {
+      color: #ccc;
+      font-size: 0.78rem;
+      padding: 8px 0;
+    }
+
+    /* ── 右：メインパネル ── */
     .main {
       flex: 1;
       background: #fff;
@@ -171,7 +267,7 @@
     .active-folder-label { font-size: 0.85rem; color: #4f6ef7; font-weight: 600; }
     .active-folder-label.archive { color: #2da862; }
 
-    .filters { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filters { display: flex; gap: 6px; margin-bottom: 16px; }
     .filters button {
       padding: 4px 12px;
       border: 1.5px solid #ddd;
@@ -183,10 +279,10 @@
       transition: all 0.15s;
     }
     .filters button.active { background: #1a1a2e; border-color: #1a1a2e; color: #fff; }
-    #sortPriorityBtn { border-color: #f90; color: #f90; margin-left: 6px; }
-    #sortPriorityBtn.active { background: #f90; border-color: #f90; color: #fff; }
-    #sortDateBtn { border-color: #4f6ef7; color: #4f6ef7; margin-left: 2px; }
-    #sortDateBtn.active { background: #4f6ef7; border-color: #4f6ef7; color: #fff; }
+#sortPriorityBtn { border-color: #f90; color: #f90; margin-left: 6px; }
+#sortPriorityBtn.active { background: #f90; border-color: #f90; color: #fff; }
+#sortDateBtn { border-color: #4f6ef7; color: #4f6ef7; margin-left: 2px; }
+#sortDateBtn.active { background: #4f6ef7; border-color: #4f6ef7; color: #fff; }
 
     .input-area { margin-bottom: 14px; }
     .input-row input {
@@ -259,10 +355,11 @@
       flex-shrink: 0; cursor: pointer; transition: transform 0.12s;
     }
     .priority-dot:hover { transform: scale(1.4); }
-    .p-high { background: #e44; }
-    .p-mid  { background: #f90; }
-    .p-low  { background: #4f6ef7; }
-    .p-none { background: #ddd; }
+    .p-today { background: #2da862; }
+    .p-high  { background: #e44; }
+    .p-mid   { background: #f90; }
+    .p-low   { background: #4f6ef7; }
+    .p-none  { background: #ddd; }
 
     li input[type="checkbox"] {
       width: 15px; height: 15px; cursor: pointer; accent-color: #4f6ef7; flex-shrink: 0;
@@ -280,7 +377,7 @@
     .move-sel {
       display: none; padding: 2px 5px; border: 1.5px solid #ddd;
       border-radius: 5px; font-size: 0.75rem; color: #666;
-      outline: none; max-width: 90px; flex-shrink: 0;
+      outline: none; max-width: 180px; flex-shrink: 0;
     }
     li:hover .move-sel { display: block; }
 
@@ -293,6 +390,7 @@
 
     .empty { text-align: center; color: #ccc; padding: 28px 0; font-size: 0.9rem; }
 
+    /* ── アーカイブ ── */
     .archive-section-header {
       display: flex;
       align-items: center;
@@ -316,126 +414,61 @@
     .archive-section-header:hover .folder-perm-del-btn { display: block; }
     .folder-perm-del-btn:hover { background: #fff0f0; }
 
-    li.archive-li { background: #fafafa; cursor: default; }
+    li.archive-li {
+      background: #fafafa;
+      cursor: default;
+    }
     li.archive-li:hover { background: #f3faf6; }
     li.archive-li .label { color: #888; text-decoration: line-through; }
 
     .arch-folder-badge {
-      font-size: 0.7rem; background: #eef0ff; color: #7080cc;
-      border-radius: 10px; padding: 1px 7px; white-space: nowrap; flex-shrink: 0;
+      font-size: 0.7rem;
+      background: #eef0ff;
+      color: #7080cc;
+      border-radius: 10px;
+      padding: 1px 7px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .arch-date { font-size: 0.7rem; color: #ccc; white-space: nowrap; flex-shrink: 0; }
+    .arch-date {
+      font-size: 0.7rem;
+      color: #ccc;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
 
     .restore-btn {
-      background: none; border: 1px solid #cce8d8; color: #2da862;
-      font-size: 0.72rem; cursor: pointer; padding: 2px 7px;
-      border-radius: 4px; white-space: nowrap; flex-shrink: 0; transition: background 0.12s;
+      background: none;
+      border: 1px solid #cce8d8;
+      color: #2da862;
+      font-size: 0.72rem;
+      cursor: pointer;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.12s;
     }
     .restore-btn:hover { background: #e8f5ee; }
 
     .perm-del-btn {
-      background: none; border: none; color: #ddd; font-size: 1rem;
-      cursor: pointer; padding: 2px 4px; border-radius: 4px; flex-shrink: 0;
+      background: none;
+      border: none;
+      color: #ddd;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 4px;
+      flex-shrink: 0;
       transition: color 0.15s, background 0.15s;
     }
     .perm-del-btn:hover { color: #e55; background: #fff0f0; }
 
     .archive-empty-msg { text-align: center; color: #2da862; opacity: 0.5; padding: 28px 0; font-size: 0.9rem; }
 
-    .chart-panel {
-      flex-shrink: 0;
-      width: 240px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.09);
-      padding: 20px 14px;
-    }
-    .chart-panel-title {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: #aaa;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      white-space: nowrap;
-    }
-    .chart-legend {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-    .chart-legend-item {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      font-size: 0.68rem;
-      color: #888;
-    }
-    .chart-legend-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-    .chart-sort-btns {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 10px;
-    }
-    .chart-sort-btn {
-      flex: 1;
-      padding: 3px 0;
-      border: 1.5px solid #ddd;
-      background: #fff;
-      border-radius: 12px;
-      font-size: 0.7rem;
-      cursor: pointer;
-      color: #aaa;
-      transition: all 0.15s;
-    }
-    .chart-sort-btn.active { background: #1a1a2e; border-color: #1a1a2e; color: #fff; }
-    .chart-row {
-      margin-bottom: 10px;
-    }
-    .chart-row-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 4px;
-      margin-bottom: 3px;
-    }
-    .chart-folder-name {
-      font-size: 0.76rem;
-      color: #555;
-      word-break: break-all;
-      flex: 1;
-    }
-    .chart-bar-wrap {
-      width: 100%;
-      height: 13px;
-      background: #f3f4f8;
-      border-radius: 6px;
-      overflow: hidden;
-      display: flex;
-    }
-    .chart-bar-seg { height: 100%; }
-    .chart-count {
-      font-size: 0.71rem;
-      color: #bbb;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .chart-empty {
-      text-align: center;
-      color: #ccc;
-      padding: 20px 0;
-      font-size: 0.85rem;
-    }
-
+    /* ── スマホ対応 ── */
     @media (max-width: 600px) {
-      .chart-panel { display: none; }
       body { padding: 0; background: #fff; }
       .wrapper { flex-direction: column; gap: 0; max-width: 100%; }
       .sidebar {
@@ -449,6 +482,7 @@
       .folder-name { max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
       .add-folder-btn { padding: 5px 8px; font-size: 0.8rem; }
       .sidebar-divider { display: none; }
+      .folder-summary { display: none; }
       .logout-btn { padding: 5px 8px; font-size: 0.75rem; margin-top: 0; }
       .main { border-radius: 0; box-shadow: none; padding: 14px 12px 24px; }
       h1 { font-size: 1.1rem; }
@@ -459,9 +493,12 @@
       .login-box { width: 90%; padding: 40px 24px; }
     }
 
+    /* ── ログイン画面 ── */
     #loginScreen {
-      position: fixed; inset: 0; background: #f0f2f5;
-      display: flex; align-items: center; justify-content: center; z-index: 100;
+      position: fixed; inset: 0;
+      background: #f0f2f5;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100;
     }
     .login-box {
       background: #fff; border-radius: 16px;
@@ -480,18 +517,21 @@
     .google-login-btn:hover { background: #f8f8f8; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .google-login-btn img { width: 20px; height: 20px; }
 
+    /* ── ログアウトボタン ── */
     .logout-btn {
       display: flex; align-items: center; gap: 5px;
       padding: 7px 8px; border-radius: 8px; border: none;
       background: none; cursor: pointer; color: #ccc;
       font-size: 0.78rem; width: 100%; text-align: left;
-      transition: background 0.12s, color 0.12s; white-space: nowrap; margin-top: 4px;
+      transition: background 0.12s, color 0.12s; white-space: nowrap;
+      margin-top: 4px;
     }
     .logout-btn:hover { background: #fff0f0; color: #e55; }
   </style>
 </head>
 <body>
 
+<!-- ログイン画面 -->
 <div id="loginScreen">
   <div class="login-box">
     <h2>📋 Todoリスト</h2>
@@ -505,9 +545,11 @@
 
 <div class="wrapper" id="mainWrapper" style="display:none">
 
+  <!-- 左：フォルダサイドバー -->
   <div class="sidebar">
     <div class="sidebar-title">フォルダ</div>
     <div id="folderList"></div>
+    <div class="folder-summary" id="folderSummary"></div>
     <div class="sidebar-divider"></div>
     <button class="add-folder-btn" onclick="showAddFolder()">＋ 新しいフォルダ</button>
     <div class="sidebar-divider" style="margin-top:8px"></div>
@@ -520,6 +562,7 @@
     </div>
   </div>
 
+  <!-- 右：メインパネル -->
   <div class="main">
     <div class="main-header">
       <h1>Todoリスト</h1>
@@ -548,6 +591,7 @@
           <label>優先度：</label>
           <select id="taskPrioritySelect">
             <option value="none">なし</option>
+            <option value="today">今日</option>
             <option value="high">高</option>
             <option value="mid">中</option>
             <option value="low">低</option>
@@ -563,21 +607,6 @@
 
     <ul id="todoList"></ul>
     <div class="empty" id="empty">タスクはありません</div>
-  </div>
-
-  <div class="chart-panel" id="chartPanel">
-    <div class="chart-panel-title">フォルダ別タスク</div>
-    <div class="chart-sort-btns">
-      <button class="chart-sort-btn active" id="chartSortCount" onclick="setChartSort('count')">数量順</button>
-      <button class="chart-sort-btn" id="chartSortDate" onclick="setChartSort('date')">日付順</button>
-    </div>
-    <div class="chart-legend">
-      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#e44"></div>高</div>
-      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#f90"></div>中</div>
-      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#4f6ef7"></div>低</div>
-      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#ddd"></div>なし</div>
-    </div>
-    <div id="chartContent"></div>
   </div>
 
 </div>
@@ -604,13 +633,15 @@
   let unsubSnap      = null;
 
   document.getElementById('loginBtn').onclick = () => {
-    signInWithPopup(auth, provider).catch(() => signInWithRedirect(auth, provider));
+    signInWithPopup(auth, provider).catch(() => {
+      signInWithRedirect(auth, provider);
+    });
   };
   document.getElementById('logoutBtn').onclick = () => signOut(auth);
 
   const UNCATEGORIZED  = '未分類';
-  const PRIORITY_CLASS = { high: 'p-high', mid: 'p-mid', low: 'p-low', none: 'p-none' };
-  const PRIORITY_CYCLE = ['none', 'high', 'mid', 'low'];
+  const PRIORITY_CLASS = { today: 'p-today', high: 'p-high', mid: 'p-mid', low: 'p-low', none: 'p-none' };
+  const PRIORITY_CYCLE = ['none', 'today', 'high', 'mid', 'low'];
 
   let folders         = [UNCATEGORIZED];
   let todos           = [];
@@ -620,6 +651,7 @@
   let activeFolder = 'all';
   let filter = 'all';
   let sortMode = 'none';
+  let folderSummarySort = 'count';
   let dragSrcIdx = null;
 
   function save() {
@@ -630,6 +662,7 @@
     setDoc(currentDataRef, { folders, todos, archivedTodos, archivedFolders });
   }
 
+  /* ── 日付ソート ── */
   function extractDate(name) {
     let m;
     m = name.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
@@ -655,6 +688,7 @@
     return `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
   }
 
+  /* ── サイドバー描画 ── */
   function renderSidebar() {
     const list = document.getElementById('folderList');
     list.innerHTML = '';
@@ -665,14 +699,18 @@
       list.appendChild(makeFolderItem(f, f, '📁', count, f !== UNCATEGORIZED));
     });
 
+    // アーカイブ項目（区切り線の後）
     const archiveDiv = makeFolderItem('アーカイブ', 'archive', '🗄', archivedTodos.length, false);
     archiveDiv.classList.add('archive-item');
+
+    // サイドバーに区切り線+アーカイブを追加
     const archiveDivider = document.createElement('div');
     archiveDivider.className = 'sidebar-divider';
     archiveDivider.style.marginTop = '6px';
     list.appendChild(archiveDivider);
     list.appendChild(archiveDiv);
 
+    // フォルダ選択（すべて表示時のみ）
     const sel   = document.getElementById('taskFolderSelect');
     const field = document.getElementById('folderMetaField');
     if (activeFolder === 'all') {
@@ -684,20 +722,129 @@
       field.classList.add('hidden');
     }
 
+    // ヘッダーラベル
     const lbl = document.getElementById('activeFolderLabel');
     if (activeFolder === 'all') {
-      lbl.textContent = ''; lbl.className = 'active-folder-label';
+      lbl.textContent = '';
+      lbl.className = 'active-folder-label';
     } else if (activeFolder === 'archive') {
-      lbl.textContent = '— アーカイブ'; lbl.className = 'active-folder-label archive';
+      lbl.textContent = '— アーカイブ';
+      lbl.className = 'active-folder-label archive';
     } else {
-      lbl.textContent = `— ${activeFolder}`; lbl.className = 'active-folder-label';
+      lbl.textContent = `— ${activeFolder}`;
+      lbl.className = 'active-folder-label';
     }
 
+    // 入力欄・フィルターをアーカイブ時は非表示
     const isArchive = activeFolder === 'archive';
     document.getElementById('inputArea').style.display  = isArchive ? 'none' : '';
     document.getElementById('filterBar').style.display  = isArchive ? 'none' : '';
     document.getElementById('clearBtn').style.display   = isArchive ? 'none' : '';
     document.getElementById('stats').style.display      = isArchive ? 'none' : '';
+    renderFolderSummary();
+  }
+
+  function renderFolderSummary() {
+    const box = document.getElementById('folderSummary');
+    if (!box) return;
+
+    const activeTodos = todos.filter(t => !t.done);
+    const rows = folders.map(folder => {
+      const items = activeTodos.filter(t => t.folder === folder);
+      return {
+        folder,
+        total: items.length,
+        date: extractDate(folder),
+        counts: {
+          today: items.filter(t => (t.priority || 'none') === 'today').length,
+          high:  items.filter(t => (t.priority || 'none') === 'high').length,
+          mid:   items.filter(t => (t.priority || 'none') === 'mid').length,
+          low:   items.filter(t => (t.priority || 'none') === 'low').length,
+          none:  items.filter(t => (t.priority || 'none') === 'none').length,
+        }
+      };
+    }).filter(row => row.total > 0);
+
+    if (folderSummarySort === 'date') {
+      rows.sort((a, b) => {
+        if (a.date && b.date) return a.date - b.date;
+        if (a.date) return -1;
+        if (b.date) return 1;
+        return a.folder.localeCompare(b.folder, 'ja');
+      });
+    } else {
+      rows.sort((a, b) => b.total - a.total || a.folder.localeCompare(b.folder, 'ja'));
+    }
+
+    const maxTotal = Math.max(1, ...rows.map(row => row.total));
+    box.innerHTML = '';
+
+    const title = document.createElement('div');
+    title.className = 'folder-summary-title';
+    title.textContent = 'フォルダ別タスク';
+
+    const tabs = document.createElement('div');
+    tabs.className = 'folder-summary-tabs';
+    tabs.innerHTML = `
+      <button class="${folderSummarySort === 'count' ? 'active' : ''}" onclick="setFolderSummarySort('count')">数量順</button>
+      <button class="${folderSummarySort === 'date' ? 'active' : ''}" onclick="setFolderSummarySort('date')">日付順</button>
+    `;
+
+    const legend = document.createElement('div');
+    legend.className = 'folder-summary-legend';
+    legend.innerHTML = `
+      <span><i class="legend-dot p-today"></i>今日</span>
+      <span><i class="legend-dot p-high"></i>高</span>
+      <span><i class="legend-dot p-mid"></i>中</span>
+      <span><i class="legend-dot p-low"></i>低</span>
+      <span><i class="legend-dot p-none"></i>なし</span>
+    `;
+
+    box.append(title, tabs, legend);
+
+    if (rows.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'folder-summary-empty';
+      empty.textContent = '未完了タスクはありません';
+      box.appendChild(empty);
+      return;
+    }
+
+    rows.forEach(row => {
+      const rowEl = document.createElement('div');
+      rowEl.className = 'folder-summary-row';
+      rowEl.title = row.folder;
+      rowEl.onclick = () => { activeFolder = row.folder; render(); };
+
+      const head = document.createElement('div');
+      head.className = 'folder-summary-head';
+
+      const nameEl = document.createElement('span');
+      nameEl.className = 'folder-summary-name';
+      nameEl.textContent = row.folder;
+
+      const countEl = document.createElement('span');
+      countEl.className = 'folder-summary-count';
+      countEl.textContent = `${row.total}件`;
+
+      head.append(nameEl, countEl);
+
+      const bar = document.createElement('div');
+      bar.className = 'folder-summary-bar';
+      bar.style.width = `${Math.max(8, (row.total / maxTotal) * 100)}%`;
+
+      ['today', 'high', 'mid', 'low', 'none'].forEach(key => {
+        const count = row.counts[key];
+        if (count === 0) return;
+        const seg = document.createElement('span');
+        seg.className = `folder-summary-seg ${PRIORITY_CLASS[key]}`;
+        seg.style.width = `${(count / row.total) * 100}%`;
+        bar.appendChild(seg);
+      });
+
+      rowEl.append(head, bar);
+      box.appendChild(rowEl);
+    });
   }
 
   function makeFolderItem(label, key, icon, count, deletable) {
@@ -707,29 +854,38 @@
     div.dataset.deletable = deletable ? 'true' : 'false';
 
     const iconEl = document.createElement('span');
-    iconEl.className = 'folder-icon'; iconEl.textContent = icon;
+    iconEl.className = 'folder-icon';
+    iconEl.textContent = icon;
+
     const nameEl = document.createElement('span');
-    nameEl.className = 'folder-name'; nameEl.textContent = label;
+    nameEl.className = 'folder-name';
+    nameEl.textContent = label;
+
     const cntEl = document.createElement('span');
-    cntEl.className = 'folder-count'; cntEl.textContent = count;
+    cntEl.className = 'folder-count';
+    cntEl.textContent = count;
 
     div.append(iconEl, nameEl, cntEl);
 
     if (deletable) {
       const archBtn = document.createElement('button');
-      archBtn.className = 'folder-archive-btn'; archBtn.textContent = '🗄';
+      archBtn.className = 'folder-archive-btn';
+      archBtn.textContent = '🗄';
       archBtn.title = 'フォルダごとアーカイブ';
       archBtn.onclick = e => { e.stopPropagation(); folderArchive(key); };
       div.appendChild(archBtn);
 
       const delBtn = document.createElement('button');
-      delBtn.className = 'folder-del-btn'; delBtn.textContent = '✕'; delBtn.title = '削除';
+      delBtn.className = 'folder-del-btn';
+      delBtn.textContent = '✕';
+      delBtn.title = '削除';
       delBtn.onclick = e => { e.stopPropagation(); deleteFolder(key); };
       div.appendChild(delBtn);
     }
     return div;
   }
 
+  /* ── フォルダクリック＆ダブルクリック ── */
   let _clickTimer = null;
   let _clickKey   = null;
 
@@ -738,26 +894,32 @@
     if (!item) return;
     if (e.target.closest('.folder-del-btn')) return;
     if (e.target.closest('.folder-archive-btn')) return;
+
     const key = item.dataset.key;
 
+    // アーカイブはシングルクリックのみ
     if (key === 'archive') {
       clearTimeout(_clickTimer); _clickTimer = null; _clickKey = null;
-      activeFolder = 'archive'; render(); return;
+      activeFolder = 'archive';
+      render();
+      return;
     }
 
     if (_clickTimer && _clickKey === key) {
       clearTimeout(_clickTimer); _clickTimer = null; _clickKey = null;
-      activeFolder = key; render();
+      activeFolder = key;
+      render();
       if (item.dataset.deletable === 'true') {
         const fresh = [...document.querySelectorAll('.folder-item')].find(el => el.dataset.key === key);
         if (fresh) startFolderEdit(fresh);
       }
     } else {
       clearTimeout(_clickTimer);
-      _clickKey = key;
+      _clickKey   = key;
       _clickTimer = setTimeout(() => {
         _clickTimer = null; _clickKey = null;
-        activeFolder = key; render();
+        activeFolder = key;
+        render();
       }, 250);
     }
   });
@@ -770,13 +932,15 @@
     const delBtn = div.querySelector('.folder-del-btn');
 
     div.onclick = null;
-    nameEl.style.display = 'none'; cntEl.style.display = 'none';
+    nameEl.style.display = 'none';
+    cntEl.style.display  = 'none';
     if (delBtn) delBtn.style.display = 'none';
 
     const input = document.createElement('input');
     input.type = 'text'; input.className = 'folder-edit-input';
     input.value = key; input.maxLength = 30;
-    div.insertBefore(input, cntEl); input.focus(); input.select();
+    div.insertBefore(input, cntEl);
+    input.focus(); input.select();
 
     let done = false;
     const commit = () => {
@@ -800,6 +964,7 @@
     input.addEventListener('blur', () => setTimeout(commit, 80));
   }
 
+  /* ── フォルダ追加・削除 ── */
   function showAddFolder() {
     document.getElementById('folderInputBox').classList.add('visible');
     document.getElementById('folderNameInput').focus();
@@ -818,15 +983,17 @@
   function folderArchive(name) {
     const count = todos.filter(t => t.folder === name).length;
     const msg = count > 0
-      ? `「${name}」のタスク ${count} 件をすべてアーカイブし、フォルダを削除します。`
-      : `「${name}」をアーカイブします。`;
+      ? `「${name}」のタスク ${count} 件をすべてアーカイブし、フォルダを削除します。\n（以前に個別アーカイブしたタスクも自動的にこのフォルダにまとめられます）`
+      : `「${name}」をアーカイブします。\n（以前に個別アーカイブしたタスクも自動的にこのフォルダにまとめられます）`;
     if (!confirm(msg)) return;
     const today = new Date().toISOString().slice(0, 10);
+    // 残っているアクティブタスクを通常アーカイブ（特別フラグなし）
     todos.filter(t => t.folder === name).forEach(t => {
       archivedTodos.unshift({ ...t, done: true, archivedAt: today });
     });
     todos   = todos.filter(t => t.folder !== name);
     folders = folders.filter(f => f !== name);
+    // フォルダをアーカイブ済みリストに追加
     if (!archivedFolders.includes(name)) archivedFolders.push(name);
     sortFolders();
     if (activeFolder === name) activeFolder = 'all';
@@ -856,7 +1023,8 @@
     if (e.key === 'Escape') cancelAddFolder();
   });
 
-  const PRIORITY_ORDER = { high: 1, mid: 2, low: 3, none: 4 };
+  /* ── タスク描画 ── */
+  const PRIORITY_ORDER = { today: 1, high: 2, mid: 3, low: 4, none: 5 };
 
   function visibleTodos() {
     let items = todos.map((t, i) => ({ t, i }));
@@ -864,7 +1032,11 @@
     if (filter === 'active') items = items.filter(({ t }) => !t.done);
     if (filter === 'done')   items = items.filter(({ t }) => t.done);
     if (sortMode === 'priority') {
-      items.sort((a, b) => (PRIORITY_ORDER[a.t.priority || 'none']) - (PRIORITY_ORDER[b.t.priority || 'none']));
+      items.sort((a, b) => {
+        const pa = PRIORITY_ORDER[a.t.priority || 'none'] || PRIORITY_ORDER.none;
+        const pb = PRIORITY_ORDER[b.t.priority || 'none'] || PRIORITY_ORDER.none;
+        return pa - pb;
+      });
     } else if (sortMode === 'date') {
       items.sort((a, b) => {
         const da = extractDate(a.t.text), db = extractDate(b.t.text);
@@ -877,64 +1049,9 @@
     return items;
   }
 
-  let chartSortMode = 'count';
-
-  function setChartSort(mode) {
-    chartSortMode = mode;
-    document.getElementById('chartSortCount').classList.toggle('active', mode === 'count');
-    document.getElementById('chartSortDate').classList.toggle('active', mode === 'date');
-    renderChart();
-  }
-
-  function renderChart() {
-    const content = document.getElementById('chartContent');
-    if (!content) return;
-    const folderData = {};
-    folders.forEach(f => { folderData[f] = { high: 0, mid: 0, low: 0, none: 0, total: 0 }; });
-    todos.forEach(t => {
-      const f = t.folder || UNCATEGORIZED;
-      if (!folderData[f]) folderData[f] = { high: 0, mid: 0, low: 0, none: 0, total: 0 };
-      const p = t.priority || 'none';
-      folderData[f][p]++;
-      folderData[f].total++;
-    });
-    let sorted = Object.entries(folderData).filter(([, d]) => d.total > 0);
-    if (chartSortMode === 'date') {
-      sorted.sort((a, b) => {
-        const da = extractDate(a[0]), db = extractDate(b[0]);
-        if (da && db) return da - db;
-        if (da) return -1;
-        if (db) return 1;
-        return a[0].localeCompare(b[0]);
-      });
-    } else {
-      sorted.sort((a, b) => b[1].total - a[1].total);
-    }
-    if (sorted.length === 0) {
-      content.innerHTML = '<div class="chart-empty">タスクなし</div>';
-      return;
-    }
-    const maxTotal = Math.max(...sorted.map(([, d]) => d.total));
-    const pct = v => `${(v / maxTotal * 100).toFixed(1)}%`;
-    content.innerHTML = sorted.map(([fname, d]) => `
-      <div class="chart-row">
-        <div class="chart-row-header">
-          <span class="chart-folder-name">${fname}</span>
-          <span class="chart-count">${d.total}件</span>
-        </div>
-        <div class="chart-bar-wrap">
-          ${d.high > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.high)};background:#e44" title="高: ${d.high}件"></div>` : ''}
-          ${d.mid  > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.mid)};background:#f90" title="中: ${d.mid}件"></div>` : ''}
-          ${d.low  > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.low)};background:#4f6ef7" title="低: ${d.low}件"></div>` : ''}
-          ${d.none > 0 ? `<div class="chart-bar-seg" style="width:${pct(d.none)};background:#ddd" title="なし: ${d.none}件"></div>` : ''}
-        </div>
-      </div>
-    `).join('');
-  }
-
   function render() {
     renderSidebar();
-    renderChart();
+
     const list     = document.getElementById('todoList');
     const empty    = document.getElementById('empty');
     const stats    = document.getElementById('stats');
@@ -942,7 +1059,10 @@
 
     list.innerHTML = '';
 
-    if (activeFolder === 'archive') { renderArchive(list, empty); return; }
+    if (activeFolder === 'archive') {
+      renderArchive(list, empty);
+      return;
+    }
 
     const scope     = activeFolder === 'all' ? todos : todos.filter(t => t.folder === activeFolder);
     const doneCount = scope.filter(t => t.done).length;
@@ -956,6 +1076,7 @@
       empty.style.display = 'none';
       if (activeFolder === 'all' && sortMode === 'priority') {
         const PRIORITY_GROUPS = [
+          { key: 'today', label: '🟢 今日' },
           { key: 'high', label: '🔴 高' },
           { key: 'mid',  label: '🟡 中' },
           { key: 'low',  label: '🔵 低' },
@@ -1010,21 +1131,27 @@
         items.forEach(({ t, i }) => renderItem(list, t, i));
       }
     }
+
     save();
   }
 
+  /* ── アーカイブ描画 ── */
   function renderArchive(list, empty) {
     if (archivedTodos.length === 0 && archivedFolders.length === 0) {
       empty.style.display = 'block';
       empty.className = 'archive-empty-msg';
       empty.textContent = 'アーカイブはありません';
-      save(); return;
+      save();
+      return;
     }
     empty.style.display = 'none';
     empty.className = 'empty';
     empty.textContent = 'タスクはありません';
 
+    // archivedFolders に入っているフォルダ名 → フォルダグループ
+    // それ以外 → 日付グループ
     if (archivedFolders.length > 0) {
+      // フォルダごとの最新アーカイブ日を求めてソート
       const folderDateMap = {};
       archivedFolders.forEach(f => { folderDateMap[f] = ''; });
       archivedTodos.forEach(t => {
@@ -1032,24 +1159,38 @@
           folderDateMap[t.folder] = t.archivedAt || '';
         }
       });
-      const sortedFolders = [...archivedFolders].sort((a, b) => folderDateMap[b].localeCompare(folderDateMap[a]));
+      const sortedFolders = [...archivedFolders].sort((a, b) =>
+        folderDateMap[b].localeCompare(folderDateMap[a])
+      );
       sortedFolders.forEach(fname => {
         const items = archivedTodos.map((t, i) => ({ t, i })).filter(({ t }) => t.folder === fname);
         const header = document.createElement('div');
         header.className = 'archive-section-header folder-group';
-        const nameEl = document.createElement('span'); nameEl.className = 'sec-name'; nameEl.textContent = `📁 ${fname}`;
-        const cntEl  = document.createElement('span'); cntEl.className = 'sec-count'; cntEl.textContent = `${items.length}件`;
-        const spacer = document.createElement('span'); spacer.className = 'sec-spacer';
+
+        const nameEl = document.createElement('span');
+        nameEl.className = 'sec-name';
+        nameEl.textContent = `📁 ${fname}`;
+
+        const cntEl = document.createElement('span');
+        cntEl.className = 'sec-count';
+        cntEl.textContent = `${items.length}件`;
+
+        const spacer = document.createElement('span');
+        spacer.className = 'sec-spacer';
+
         const delBtn = document.createElement('button');
-        delBtn.className = 'folder-perm-del-btn'; delBtn.textContent = '完全削除';
+        delBtn.className = 'folder-perm-del-btn';
+        delBtn.textContent = '完全削除';
         delBtn.title = 'このフォルダとすべてのタスクを完全に削除';
         delBtn.onclick = () => deleteFolderFromArchive(fname);
+
         header.append(nameEl, cntEl, spacer, delBtn);
         list.appendChild(header);
         items.forEach(({ t, i }) => renderArchiveItem(list, t, i, true));
       });
     }
 
+    // 日付グループ（アーカイブ済みフォルダに属さないタスク、新しい順）
     const individualItems = archivedTodos.map((t, i) => ({ t, i }))
       .filter(({ t }) => !archivedFolders.includes(t.folder));
     if (individualItems.length > 0) {
@@ -1068,32 +1209,45 @@
         dateGrouped[date].forEach(({ t, i }) => renderArchiveItem(list, t, i, false));
       });
     }
+
     save();
   }
 
   function renderArchiveItem(list, todo, archIdx, isFolderGroup) {
     const li = document.createElement('li');
     li.classList.add('archive-li');
+
     const dot = document.createElement('span');
-    dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none']}`;
+    dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none'] || PRIORITY_CLASS.none}`;
     dot.style.cursor = 'default';
+
     const label = document.createElement('span');
-    label.className = 'label'; label.textContent = todo.text;
+    label.className = 'label';
+    label.textContent = todo.text;
+
     const dateEl = document.createElement('span');
     dateEl.className = 'arch-date';
     dateEl.textContent = formatDate(todo.archivedAt || new Date().toISOString().slice(0,10));
+
     const restoreBtn = document.createElement('button');
-    restoreBtn.className = 'restore-btn'; restoreBtn.textContent = '復元';
+    restoreBtn.className = 'restore-btn';
+    restoreBtn.textContent = '復元';
     restoreBtn.title = '元のフォルダに戻す';
     restoreBtn.onclick = () => restoreFromArchive(archIdx);
+
     const permDel = document.createElement('button');
-    permDel.className = 'perm-del-btn'; permDel.textContent = '×'; permDel.title = '完全に削除';
+    permDel.className = 'perm-del-btn';
+    permDel.textContent = '×';
+    permDel.title = '完全に削除';
     permDel.onclick = () => { archivedTodos.splice(archIdx, 1); render(); };
+
     if (isFolderGroup) {
+      // フォルダグループ内はフォルダバッジ不要、日付のみ
       li.append(dot, label, dateEl, restoreBtn, permDel);
     } else {
       const badge = document.createElement('span');
-      badge.className = 'arch-folder-badge'; badge.textContent = todo.folder;
+      badge.className = 'arch-folder-badge';
+      badge.textContent = todo.folder;
       li.append(dot, label, badge, dateEl, restoreBtn, permDel);
     }
     list.appendChild(li);
@@ -1101,6 +1255,7 @@
 
   function restoreFromArchive(archIdx) {
     const t = archivedTodos[archIdx];
+    // フォルダが削除されていたら未分類へ
     const targetFolder = folders.includes(t.folder) ? t.folder : UNCATEGORIZED;
     todos.push({ text: t.text, done: false, folder: targetFolder, priority: t.priority || 'none' });
     archivedTodos.splice(archIdx, 1);
@@ -1114,15 +1269,17 @@
     li.draggable = true;
 
     const handle = document.createElement('span');
-    handle.className = 'drag-handle'; handle.textContent = '⠿';
+    handle.className = 'drag-handle';
+    handle.textContent = '⠿';
 
     const dot = document.createElement('span');
-    dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none']}`;
+    dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none'] || PRIORITY_CLASS.none}`;
     dot.title = '優先度をクリックで変更';
     dot.onclick = () => {
       const cur  = todos[realIdx].priority || 'none';
       const next = PRIORITY_CYCLE[(PRIORITY_CYCLE.indexOf(cur) + 1) % PRIORITY_CYCLE.length];
-      todos[realIdx].priority = next; render();
+      todos[realIdx].priority = next;
+      render();
     };
 
     const cb = document.createElement('input');
@@ -1130,16 +1287,19 @@
     cb.onchange = () => { todos[realIdx].done = !todos[realIdx].done; render(); };
 
     const label = document.createElement('span');
-    label.className = 'label'; label.textContent = todo.text;
+    label.className = 'label';
+    label.textContent = todo.text;
     label.title = 'ダブルクリックで編集';
     label.ondblclick = () => startEdit(li, realIdx, label, hint, del);
 
     const hint = document.createElement('span');
-    hint.className = 'edit-hint'; hint.style.display = 'none';
+    hint.className = 'edit-hint';
+    hint.style.display = 'none';
     hint.textContent = 'Enter保存 / Esc取消';
 
     const moveSel = document.createElement('select');
-    moveSel.className = 'move-sel'; moveSel.title = 'フォルダを移動';
+    moveSel.className = 'move-sel';
+    moveSel.title = 'フォルダを移動';
     folders.forEach(f => {
       const opt = document.createElement('option');
       opt.value = f; opt.textContent = f;
@@ -1167,6 +1327,7 @@
         dragSrcIdx = null; render();
       }
     });
+
     list.appendChild(li);
   }
 
@@ -1185,6 +1346,7 @@
     input.addEventListener('blur', commit);
   }
 
+  /* ── タスク追加 ── */
   function addTodo() {
     const input = document.getElementById('todoInput');
     const text  = input.value.trim();
@@ -1197,14 +1359,14 @@
     input.value = '';
     if (filter === 'done') {
       filter = 'all';
-      document.querySelectorAll('.filters button:not(#sortPriorityBtn):not(#sortDateBtn)').forEach((b, i) => b.classList.toggle('active', i === 0));
+      document.querySelectorAll('.filters button').forEach((b, i) => b.classList.toggle('active', i === 0));
     }
     render();
   }
 
   function setFilter(f, btn) {
     filter = f;
-    document.querySelectorAll('.filters button:not(#sortPriorityBtn):not(#sortDateBtn)').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filters button:not(#sortPriorityBtn)').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
     render();
   }
@@ -1223,6 +1385,12 @@
     render();
   }
 
+  function setFolderSummarySort(mode) {
+    folderSummarySort = mode === 'date' ? 'date' : 'count';
+    render();
+  }
+
+  /* ── 完了済みをアーカイブ ── */
   function clearDone() {
     const today = new Date().toISOString().slice(0, 10);
     const scope = activeFolder === 'all' ? null : activeFolder;
@@ -1232,7 +1400,7 @@
     render();
   }
 
-  window.setChartSort       = setChartSort;
+  // type="module"ではonclick=""からグローバル関数を呼べないため、windowに登録
   window.showAddFolder      = showAddFolder;
   window.cancelAddFolder    = cancelAddFolder;
   window.confirmAddFolder   = confirmAddFolder;
@@ -1241,6 +1409,7 @@
   window.addTodo            = addTodo;
   window.toggleSortPriority = toggleSortPriority;
   window.toggleSortDate     = toggleSortDate;
+  window.setFolderSummarySort = setFolderSummarySort;
 
   document.getElementById('todoInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
@@ -1265,8 +1434,10 @@
     }
   }, true);
 
+  // ログイン状態を監視
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      // ログイン済み → アプリ表示
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainWrapper').style.display = '';
       currentDataRef = doc(db, 'users', user.uid);
@@ -1296,6 +1467,7 @@
         render();
       });
     } else {
+      // 未ログイン → ログイン画面表示
       document.getElementById('loginScreen').style.display = 'flex';
       document.getElementById('mainWrapper').style.display = 'none';
       currentDataRef = null;
