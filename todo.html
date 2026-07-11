@@ -364,6 +364,17 @@
     .p-low   { background: #4f6ef7; }
     .p-none  { background: #ddd; }
 
+    .priority-select {
+      padding: 2px 6px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: #444;
+      outline: none;
+      flex-shrink: 0;
+      background: #fff;
+    }
+
     li input[type="checkbox"] {
       width: 15px; height: 15px; cursor: pointer; accent-color: #4f6ef7; flex-shrink: 0;
     }
@@ -652,7 +663,6 @@
 
   const UNCATEGORIZED  = '未分類';
   const PRIORITY_CLASS = { today: 'p-today', high: 'p-high', mid: 'p-mid', low: 'p-low', none: 'p-none' };
-  const PRIORITY_CYCLE = ['none', 'today', 'high', 'mid', 'low'];
 
   let folders         = [UNCATEGORIZED];
   let todos           = [];
@@ -1285,12 +1295,10 @@
 
     const dot = document.createElement('span');
     dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none'] || PRIORITY_CLASS.none}`;
-    dot.title = '優先度をクリックで変更';
-    dot.onclick = () => {
-      const cur  = todos[realIdx].priority || 'none';
-      const next = PRIORITY_CYCLE[(PRIORITY_CYCLE.indexOf(cur) + 1) % PRIORITY_CYCLE.length];
-      todos[realIdx].priority = next;
-      render();
+    dot.title = 'クリックで優先度を選択';
+    dot.onclick = e => {
+      e.stopPropagation();
+      showPrioritySelector(li, dot, realIdx);
     };
 
     const cb = document.createElement('input');
@@ -1340,6 +1348,48 @@
     });
 
     list.appendChild(li);
+  }
+
+  function showPrioritySelector(li, dot, realIdx) {
+    if (li.querySelector('.priority-select')) return;
+
+    const select = document.createElement('select');
+    select.className = 'priority-select';
+    [
+      ['today', '今日'],
+      ['high', '高'],
+      ['mid', '中'],
+      ['low', '低'],
+      ['none', 'なし'],
+    ].forEach(([value, label]) => {
+      const opt = document.createElement('option');
+      opt.value = value;
+      opt.textContent = label;
+      if ((todos[realIdx].priority || 'none') === value) opt.selected = true;
+      select.appendChild(opt);
+    });
+
+    dot.style.display = 'none';
+    li.insertBefore(select, dot.nextSibling);
+    select.focus();
+
+    const close = () => {
+      if (!select.isConnected) return;
+      select.remove();
+      dot.style.display = '';
+    };
+    select.onchange = () => {
+      todos[realIdx].priority = select.value;
+      render();
+    };
+    select.onkeydown = e => {
+      if (e.key === 'Escape') close();
+      if (e.key === 'Enter') {
+        todos[realIdx].priority = select.value;
+        render();
+      }
+    };
+    select.onblur = () => setTimeout(close, 80);
   }
 
   function startEdit(li, idx, label, hint, del) {
