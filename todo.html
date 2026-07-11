@@ -21,7 +21,7 @@
       display: flex;
       gap: 16px;
       width: 100%;
-      max-width: 860px;
+      max-width: 1240px;
       align-items: flex-start;
     }
 
@@ -154,9 +154,12 @@
     .folder-input-box .ok { background: #4f6ef7; color: #fff; }
 
     .folder-summary {
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px solid #f0f0f0;
+      flex-shrink: 0;
+      width: 340px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+      padding: 24px 20px 28px;
     }
     .folder-summary-title {
       font-size: 0.78rem;
@@ -482,7 +485,14 @@
       .folder-name { max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
       .add-folder-btn { padding: 5px 8px; font-size: 0.8rem; }
       .sidebar-divider { display: none; }
-      .folder-summary { display: none; }
+      .folder-summary {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        border-top: 1px solid #eee;
+        padding: 14px 12px 24px;
+      }
       .logout-btn { padding: 5px 8px; font-size: 0.75rem; margin-top: 0; }
       .main { border-radius: 0; box-shadow: none; padding: 14px 12px 24px; }
       h1 { font-size: 1.1rem; }
@@ -549,7 +559,6 @@
   <div class="sidebar">
     <div class="sidebar-title">フォルダ</div>
     <div id="folderList"></div>
-    <div class="folder-summary" id="folderSummary"></div>
     <div class="sidebar-divider"></div>
     <button class="add-folder-btn" onclick="showAddFolder()">＋ 新しいフォルダ</button>
     <div class="sidebar-divider" style="margin-top:8px"></div>
@@ -608,6 +617,8 @@
     <ul id="todoList"></ul>
     <div class="empty" id="empty">タスクはありません</div>
   </div>
+
+  <div class="folder-summary" id="folderSummary"></div>
 
 </div>
 
