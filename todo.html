@@ -182,7 +182,7 @@
     }
     .folder-summary-tabs {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 6px;
       margin-bottom: 10px;
     }
@@ -585,11 +585,7 @@
     <div class="sidebar-divider"></div>
     <button class="add-folder-btn" onclick="showAddFolder()">＋ 新しいフォルダ</button>
     <div class="sidebar-divider" style="margin-top:8px"></div>
-    <button class="backup-btn" onclick="downloadBackup()">バックアップ保存</button>
-    <button class="backup-btn" onclick="restoreLatestLocalBackup()">自動バックアップ復元</button>
-    <button class="backup-btn" onclick="document.getElementById('backupFileInput').click()">ファイルから復元</button>
     <input type="file" id="backupFileInput" accept="application/json,.json" style="display:none">
-    <div class="sidebar-divider" style="margin-top:8px"></div>
     <button class="logout-btn" id="logoutBtn">↩ ログアウト</button>
     <div class="folder-input-box" id="folderInputBox">
       <input type="text" id="folderNameInput" placeholder="フォルダ名... (Shift+Enter)" maxlength="30">
@@ -868,7 +864,7 @@
     if (current === lastSavedData) return;
     if (!hasUsefulData(currentData) && lastSavedHadUsefulData) {
       if (!blockedEmptySaveAlerted) {
-        alert('空データでの上書きをブロックしました。全削除したい場合は、先にバックアップ保存をしてください。');
+        alert('空データでの上書きをブロックしました。必要な場合はFirebaseのbackupsを確認してください。');
         blockedEmptySaveAlerted = true;
       }
       return;
@@ -968,19 +964,23 @@
     if (!box) return;
 
     const activeTodos = todos.filter(t => !t.done);
+    const PRIORITY_SCORE = { today: 5, high: 4, mid: 3, low: 2, none: 1 };
     const rows = folders.map(folder => {
       const items = activeTodos.filter(t => t.folder === folder);
+      const counts = {
+        today: items.filter(t => (t.priority || 'none') === 'today').length,
+        high:  items.filter(t => (t.priority || 'none') === 'high').length,
+        mid:   items.filter(t => (t.priority || 'none') === 'mid').length,
+        low:   items.filter(t => (t.priority || 'none') === 'low').length,
+        none:  items.filter(t => (t.priority || 'none') === 'none').length,
+      };
       return {
         folder,
         total: items.length,
         date: extractDate(folder),
-        counts: {
-          today: items.filter(t => (t.priority || 'none') === 'today').length,
-          high:  items.filter(t => (t.priority || 'none') === 'high').length,
-          mid:   items.filter(t => (t.priority || 'none') === 'mid').length,
-          low:   items.filter(t => (t.priority || 'none') === 'low').length,
-          none:  items.filter(t => (t.priority || 'none') === 'none').length,
-        }
+        priorityScore: Object.entries(counts).reduce((sum, [key, count]) =>
+          sum + (PRIORITY_SCORE[key] || 0) * count, 0),
+        counts,
       };
     }).filter(row => row.total > 0);
 
@@ -991,6 +991,15 @@
         if (b.date) return 1;
         return a.folder.localeCompare(b.folder, 'ja');
       });
+    } else if (folderSummarySort === 'priority') {
+      rows.sort((a, b) =>
+        b.priorityScore - a.priorityScore ||
+        b.counts.today - a.counts.today ||
+        b.counts.high - a.counts.high ||
+        b.counts.mid - a.counts.mid ||
+        b.total - a.total ||
+        a.folder.localeCompare(b.folder, 'ja')
+      );
     } else {
       rows.sort((a, b) => b.total - a.total || a.folder.localeCompare(b.folder, 'ja'));
     }
@@ -1006,6 +1015,7 @@
     tabs.className = 'folder-summary-tabs';
     tabs.innerHTML = `
       <button class="${folderSummarySort === 'count' ? 'active' : ''}" onclick="setFolderSummarySort('count')">数量順</button>
+      <button class="${folderSummarySort === 'priority' ? 'active' : ''}" onclick="setFolderSummarySort('priority')">優先度順</button>
       <button class="${folderSummarySort === 'date' ? 'active' : ''}" onclick="setFolderSummarySort('date')">日付順</button>
     `;
 
@@ -1645,7 +1655,7 @@
   }
 
   function setFolderSummarySort(mode) {
-    folderSummarySort = mode === 'date' ? 'date' : 'count';
+    folderSummarySort = ['count', 'priority', 'date'].includes(mode) ? mode : 'count';
     render();
   }
 
