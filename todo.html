@@ -127,6 +127,18 @@
       white-space: nowrap;
     }
     .add-folder-btn:hover { background: #f3f4f8; color: #4f6ef7; }
+    .backup-btn {
+      background: none;
+      border: none;
+      color: #777;
+      font-size: 0.78rem;
+      text-align: left;
+      padding: 7px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .backup-btn:hover { background: #f3f4f8; color: #4f6ef7; }
 
     .folder-input-box {
       display: none;
@@ -573,6 +585,11 @@
     <div class="sidebar-divider"></div>
     <button class="add-folder-btn" onclick="showAddFolder()">＋ 新しいフォルダ</button>
     <div class="sidebar-divider" style="margin-top:8px"></div>
+    <button class="backup-btn" onclick="downloadBackup()">バックアップ保存</button>
+    <button class="backup-btn" onclick="restoreLatestLocalBackup()">自動バックアップ復元</button>
+    <button class="backup-btn" onclick="document.getElementById('backupFileInput').click()">ファイルから復元</button>
+    <input type="file" id="backupFileInput" accept="application/json,.json" style="display:none">
+    <div class="sidebar-divider" style="margin-top:8px"></div>
     <button class="logout-btn" id="logoutBtn">↩ ログアウト</button>
     <div class="folder-input-box" id="folderInputBox">
       <input type="text" id="folderNameInput" placeholder="フォルダ名... (Shift+Enter)" maxlength="30">
@@ -653,6 +670,10 @@
   let currentDataRef = null;
   let lastSavedData  = '';
   let unsubSnap      = null;
+  let applyingRemoteSnapshot = false;
+  let currentUserId = '';
+  let blockedEmptySaveAlerted = false;
+  let lastSavedHadUsefulData = false;
 
   document.getElementById('loginBtn').onclick = () => {
     signInWithPopup(auth, provider).catch(() => {
@@ -675,12 +696,127 @@
   let folderSummarySort = 'count';
   let dragSrcIdx = null;
 
+  function dataObject() {
+    return { folders, todos, archivedTodos, archivedFolders };
+  }
+
+  function dataSignature(data) {
+    return JSON.stringify([data.folders, data.todos, data.archivedTodos, data.archivedFolders]);
+  }
+
+  function hasUsefulData(data) {
+    return (data.todos || []).length > 0 ||
+      (data.archivedTodos || []).length > 0 ||
+      (data.archivedFolders || []).length > 0 ||
+      (data.folders || []).some(f => f !== UNCATEGORIZED);
+  }
+
+  function localBackupKey() {
+    return `todoAutoBackups:${currentUserId || 'anonymous'}`;
+  }
+
+  function readLocalBackups() {
+    try {
+      return JSON.parse(localStorage.getItem(localBackupKey()) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function storeLocalBackup(reason) {
+    const data = dataObject();
+    if (!hasUsefulData(data)) return;
+    const entry = {
+      savedAt: new Date().toISOString(),
+      reason,
+      data,
+    };
+    const backups = readLocalBackups()
+      .filter(b => dataSignature(b.data || {}) !== dataSignature(data));
+    backups.unshift(entry);
+    localStorage.setItem(localBackupKey(), JSON.stringify(backups.slice(0, 20)));
+  }
+
+  function applyData(data) {
+    folders         = Array.isArray(data.folders) && data.folders.length ? data.folders : [UNCATEGORIZED];
+    todos           = Array.isArray(data.todos) ? data.todos.map(t => ({
+      text: t.text, done: t.done || false,
+      folder: t.folder || UNCATEGORIZED, priority: t.priority || 'none',
+    })) : [];
+    archivedTodos   = Array.isArray(data.archivedTodos) ? data.archivedTodos : [];
+    archivedFolders = Array.isArray(data.archivedFolders) ? data.archivedFolders : [];
+    archivedTodos.forEach(t => {
+      if (t.archivedAsFolder && t.folder && !archivedFolders.includes(t.folder)) {
+        archivedFolders.push(t.folder);
+      }
+    });
+  }
+
+  function downloadBackup() {
+    const payload = {
+      app: 'todo',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data: dataObject(),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `todo-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function restoreLatestLocalBackup() {
+    const latest = readLocalBackups().find(b => hasUsefulData(b.data || {}));
+    if (!latest) {
+      alert('復元できる自動バックアップがありません');
+      return;
+    }
+    if (!confirm(`${new Date(latest.savedAt).toLocaleString()} の自動バックアップを復元します。現在の内容は上書きされます。`)) return;
+    applyData(latest.data);
+    lastSavedData = '';
+    render();
+  }
+
+  function restoreFromBackupFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        const data = parsed.data || parsed;
+        if (!hasUsefulData(data)) throw new Error('empty backup');
+        if (!confirm('バックアップファイルから復元します。現在の内容は上書きされます。')) return;
+        applyData(data);
+        lastSavedData = '';
+        render();
+      } catch {
+        alert('バックアップファイルを読み込めませんでした');
+      }
+    };
+    reader.readAsText(file);
+  }
+
   function save() {
     if (!currentDataRef) return;
-    const current = JSON.stringify([folders, todos, archivedTodos, archivedFolders]);
+    if (applyingRemoteSnapshot) return;
+    const currentData = dataObject();
+    const current = dataSignature(currentData);
     if (current === lastSavedData) return;
+    if (!hasUsefulData(currentData) && lastSavedHadUsefulData) {
+      if (!blockedEmptySaveAlerted) {
+        alert('空データでの上書きをブロックしました。全削除したい場合は、先にバックアップ保存をしてください。');
+        blockedEmptySaveAlerted = true;
+      }
+      return;
+    }
+    storeLocalBackup('before-save');
     lastSavedData = current;
-    setDoc(currentDataRef, { folders, todos, archivedTodos, archivedFolders });
+    lastSavedHadUsefulData = hasUsefulData(currentData);
+    blockedEmptySaveAlerted = false;
+    setDoc(currentDataRef, currentData);
   }
 
   /* ── 日付ソート ── */
@@ -1468,9 +1604,16 @@
   window.setFilter          = setFilter;
   window.clearDone          = clearDone;
   window.addTodo            = addTodo;
+  window.downloadBackup     = downloadBackup;
+  window.restoreLatestLocalBackup = restoreLatestLocalBackup;
   window.toggleSortPriority = toggleSortPriority;
   window.toggleSortDate     = toggleSortDate;
   window.setFolderSummarySort = setFolderSummarySort;
+
+  document.getElementById('backupFileInput').addEventListener('change', e => {
+    restoreFromBackupFile(e.target.files[0]);
+    e.target.value = '';
+  });
 
   document.getElementById('todoInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
@@ -1501,37 +1644,36 @@
       // ログイン済み → アプリ表示
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainWrapper').style.display = '';
+      currentUserId = user.uid;
       currentDataRef = doc(db, 'users', user.uid);
       lastSavedData  = '';
+      lastSavedHadUsefulData = false;
       folders = [UNCATEGORIZED]; todos = []; archivedTodos = []; archivedFolders = [];
 
       if (unsubSnap) unsubSnap();
       unsubSnap = onSnapshot(currentDataRef, { includeMetadataChanges: true }, (snap) => {
         if (snap.metadata.hasPendingWrites) return;
+        applyingRemoteSnapshot = true;
         if (snap.exists()) {
           const data = snap.data();
-          folders         = data.folders         || [UNCATEGORIZED];
-          todos           = (data.todos          || []).map(t => ({
-            text: t.text, done: t.done || false,
-            folder: t.folder || UNCATEGORIZED, priority: t.priority || 'none',
-          }));
-          archivedTodos   = data.archivedTodos   || [];
-          archivedFolders = data.archivedFolders || [];
-          archivedTodos.forEach(t => {
-            if (t.archivedAsFolder && t.folder && !archivedFolders.includes(t.folder)) {
-              archivedFolders.push(t.folder);
-            }
-          });
-          lastSavedData = JSON.stringify([folders, todos, archivedTodos, archivedFolders]);
+          applyData(data);
+          if (hasUsefulData(dataObject())) storeLocalBackup('remote-snapshot');
+          lastSavedData = dataSignature(dataObject());
+          lastSavedHadUsefulData = hasUsefulData(dataObject());
+        } else {
+          lastSavedData = dataSignature(dataObject());
+          lastSavedHadUsefulData = false;
         }
         sortFolders();
         render();
+        applyingRemoteSnapshot = false;
       });
     } else {
       // 未ログイン → ログイン画面表示
       document.getElementById('loginScreen').style.display = 'flex';
       document.getElementById('mainWrapper').style.display = 'none';
       currentDataRef = null;
+      currentUserId = '';
       if (unsubSnap) { unsubSnap(); unsubSnap = null; }
     }
   });
