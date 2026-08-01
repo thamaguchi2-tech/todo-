@@ -652,7 +652,7 @@
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  import { getFirestore, doc, setDoc, onSnapshot, collection, query, orderBy, limit, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
   import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
   const firebaseConfig = {
@@ -674,6 +674,8 @@
   let currentUserId = '';
   let blockedEmptySaveAlerted = false;
   let lastSavedHadUsefulData = false;
+  let latestCloudBackupSignature = '';
+  let cloudBackupFailedAlerted = false;
 
   document.getElementById('loginBtn').onclick = () => {
     signInWithPopup(auth, provider).catch(() => {
@@ -737,6 +739,60 @@
     localStorage.setItem(localBackupKey(), JSON.stringify(backups.slice(0, 20)));
   }
 
+  function cloudBackupRef(id) {
+    if (!currentUserId) return null;
+    return doc(db, 'users', currentUserId, 'backups', id);
+  }
+
+  function makeBackupId() {
+    return new Date().toISOString().replace(/[:.]/g, '-');
+  }
+
+  function storeCloudBackup(reason, sourceData = dataObject()) {
+    if (!currentUserId || !hasUsefulData(sourceData)) return;
+    const signature = dataSignature(sourceData);
+    if (signature === latestCloudBackupSignature) return;
+    latestCloudBackupSignature = signature;
+    const savedAt = new Date().toISOString();
+    const backupRef = cloudBackupRef(makeBackupId());
+    setDoc(backupRef, {
+      savedAt,
+      reason,
+      folders: sourceData.folders || [UNCATEGORIZED],
+      todos: sourceData.todos || [],
+      archivedTodos: sourceData.archivedTodos || [],
+      archivedFolders: sourceData.archivedFolders || [],
+    }).catch(() => {
+      latestCloudBackupSignature = '';
+      if (!cloudBackupFailedAlerted) {
+        alert('クラウド自動バックアップに失敗しました。Firestoreルールで users/{uid}/backups への書き込みを許可してください。');
+        cloudBackupFailedAlerted = true;
+      }
+    });
+  }
+
+  async function latestCloudBackup() {
+    if (!currentUserId) return null;
+    try {
+      const q = query(
+        collection(db, 'users', currentUserId, 'backups'),
+        orderBy('savedAt', 'desc'),
+        limit(1)
+      );
+      const snap = await getDocs(q);
+      if (snap.empty) return null;
+      const data = snap.docs[0].data();
+      if (!hasUsefulData(data)) return null;
+      return {
+        savedAt: data.savedAt || '',
+        reason: data.reason || 'cloud-backup',
+        data,
+      };
+    } catch {
+      return null;
+    }
+  }
+
   function applyData(data) {
     folders         = Array.isArray(data.folders) && data.folders.length ? data.folders : [UNCATEGORIZED];
     todos           = Array.isArray(data.todos) ? data.todos.map(t => ({
@@ -768,13 +824,18 @@
     URL.revokeObjectURL(url);
   }
 
-  function restoreLatestLocalBackup() {
-    const latest = readLocalBackups().find(b => hasUsefulData(b.data || {}));
+  async function restoreLatestLocalBackup() {
+    const localLatest = readLocalBackups().find(b => hasUsefulData(b.data || {})) || null;
+    const cloudLatest = await latestCloudBackup();
+    const latest = [localLatest, cloudLatest]
+      .filter(Boolean)
+      .sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''))[0];
     if (!latest) {
       alert('復元できる自動バックアップがありません');
       return;
     }
-    if (!confirm(`${new Date(latest.savedAt).toLocaleString()} の自動バックアップを復元します。現在の内容は上書きされます。`)) return;
+    const savedAt = latest.savedAt ? new Date(latest.savedAt).toLocaleString() : '日時不明';
+    if (!confirm(`${savedAt} の自動バックアップを復元します。現在の内容は上書きされます。`)) return;
     applyData(latest.data);
     lastSavedData = '';
     render();
@@ -817,6 +878,7 @@
     lastSavedHadUsefulData = hasUsefulData(currentData);
     blockedEmptySaveAlerted = false;
     setDoc(currentDataRef, currentData);
+    storeCloudBackup('auto-save', currentData);
   }
 
   /* ── 日付ソート ── */
