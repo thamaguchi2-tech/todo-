@@ -21,11 +21,10 @@
       display: flex;
       gap: 16px;
       width: 100%;
-      max-width: 1240px;
+      max-width: 860px;
       align-items: flex-start;
     }
 
-    /* ── 左：サイドバー ── */
     .sidebar {
       flex-shrink: 0;
       width: max-content;
@@ -127,18 +126,6 @@
       white-space: nowrap;
     }
     .add-folder-btn:hover { background: #f3f4f8; color: #4f6ef7; }
-    .backup-btn {
-      background: none;
-      border: none;
-      color: #777;
-      font-size: 0.78rem;
-      text-align: left;
-      padding: 7px 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .backup-btn:hover { background: #f3f4f8; color: #4f6ef7; }
 
     .folder-input-box {
       display: none;
@@ -165,104 +152,6 @@
     }
     .folder-input-box .ok { background: #4f6ef7; color: #fff; }
 
-    .folder-summary {
-      flex-shrink: 0;
-      width: 340px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.09);
-      padding: 24px 20px 28px;
-    }
-    .folder-summary-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #aaa;
-      margin-bottom: 10px;
-      white-space: nowrap;
-    }
-    .folder-summary-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-    .folder-summary-tabs button {
-      padding: 6px 8px;
-      border: 1.5px solid #ddd;
-      background: #fff;
-      border-radius: 18px;
-      color: #999;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .folder-summary-tabs button.active {
-      background: #1a1a2e;
-      border-color: #1a1a2e;
-      color: #fff;
-    }
-    .folder-summary-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-bottom: 10px;
-      color: #777;
-      font-size: 0.75rem;
-    }
-    .folder-summary-legend span {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      white-space: nowrap;
-    }
-    .legend-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 3px;
-      display: inline-block;
-    }
-    .folder-summary-row {
-      margin-bottom: 11px;
-      cursor: pointer;
-    }
-    .folder-summary-head {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 5px;
-      color: #555;
-      font-size: 0.82rem;
-      line-height: 1.25;
-    }
-    .folder-summary-name {
-      flex: 1;
-      min-width: 0;
-      max-width: 180px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .folder-summary-count {
-      color: #bbb;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-    .folder-summary-bar {
-      display: flex;
-      width: 100%;
-      height: 11px;
-      overflow: hidden;
-      background: #f0f1f7;
-      border-radius: 999px;
-    }
-    .folder-summary-seg { height: 100%; flex-shrink: 0; }
-    .folder-summary-empty {
-      color: #ccc;
-      font-size: 0.78rem;
-      padding: 8px 0;
-    }
-
-    /* ── 右：メインパネル ── */
     .main {
       flex: 1;
       background: #fff;
@@ -294,10 +183,6 @@
       transition: all 0.15s;
     }
     .filters button.active { background: #1a1a2e; border-color: #1a1a2e; color: #fff; }
-#sortPriorityBtn { border-color: #f90; color: #f90; margin-left: 6px; }
-#sortPriorityBtn.active { background: #f90; border-color: #f90; color: #fff; }
-#sortDateBtn { border-color: #4f6ef7; color: #4f6ef7; margin-left: 2px; }
-#sortDateBtn.active { background: #4f6ef7; border-color: #4f6ef7; color: #fff; }
 
     .input-area { margin-bottom: 14px; }
     .input-row input {
@@ -370,22 +255,10 @@
       flex-shrink: 0; cursor: pointer; transition: transform 0.12s;
     }
     .priority-dot:hover { transform: scale(1.4); }
-    .p-today { background: #2da862; }
-    .p-high  { background: #e44; }
-    .p-mid   { background: #f90; }
-    .p-low   { background: #4f6ef7; }
-    .p-none  { background: #ddd; }
-
-    .priority-select {
-      padding: 2px 6px;
-      border: 1.5px solid #ddd;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      color: #444;
-      outline: none;
-      flex-shrink: 0;
-      background: #fff;
-    }
+    .p-high { background: #e44; }
+    .p-mid  { background: #f90; }
+    .p-low  { background: #4f6ef7; }
+    .p-none { background: #ddd; }
 
     li input[type="checkbox"] {
       width: 15px; height: 15px; cursor: pointer; accent-color: #4f6ef7; flex-shrink: 0;
@@ -403,7 +276,7 @@
     .move-sel {
       display: none; padding: 2px 5px; border: 1.5px solid #ddd;
       border-radius: 5px; font-size: 0.75rem; color: #666;
-      outline: none; max-width: 180px; flex-shrink: 0;
+      outline: none; max-width: 90px; flex-shrink: 0;
     }
     li:hover .move-sel { display: block; }
 
@@ -416,7 +289,6 @@
 
     .empty { text-align: center; color: #ccc; padding: 28px 0; font-size: 0.9rem; }
 
-    /* ── アーカイブ ── */
     .archive-section-header {
       display: flex;
       align-items: center;
@@ -440,60 +312,33 @@
     .archive-section-header:hover .folder-perm-del-btn { display: block; }
     .folder-perm-del-btn:hover { background: #fff0f0; }
 
-    li.archive-li {
-      background: #fafafa;
-      cursor: default;
-    }
+    li.archive-li { background: #fafafa; cursor: default; }
     li.archive-li:hover { background: #f3faf6; }
     li.archive-li .label { color: #888; text-decoration: line-through; }
 
     .arch-folder-badge {
-      font-size: 0.7rem;
-      background: #eef0ff;
-      color: #7080cc;
-      border-radius: 10px;
-      padding: 1px 7px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      font-size: 0.7rem; background: #eef0ff; color: #7080cc;
+      border-radius: 10px; padding: 1px 7px; white-space: nowrap; flex-shrink: 0;
     }
 
-    .arch-date {
-      font-size: 0.7rem;
-      color: #ccc;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
+    .arch-date { font-size: 0.7rem; color: #ccc; white-space: nowrap; flex-shrink: 0; }
 
     .restore-btn {
-      background: none;
-      border: 1px solid #cce8d8;
-      color: #2da862;
-      font-size: 0.72rem;
-      cursor: pointer;
-      padding: 2px 7px;
-      border-radius: 4px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: background 0.12s;
+      background: none; border: 1px solid #cce8d8; color: #2da862;
+      font-size: 0.72rem; cursor: pointer; padding: 2px 7px; border-radius: 4px;
+      white-space: nowrap; flex-shrink: 0; transition: background 0.12s;
     }
     .restore-btn:hover { background: #e8f5ee; }
 
     .perm-del-btn {
-      background: none;
-      border: none;
-      color: #ddd;
-      font-size: 1rem;
-      cursor: pointer;
-      padding: 2px 4px;
-      border-radius: 4px;
-      flex-shrink: 0;
+      background: none; border: none; color: #ddd; font-size: 1rem;
+      cursor: pointer; padding: 2px 4px; border-radius: 4px; flex-shrink: 0;
       transition: color 0.15s, background 0.15s;
     }
     .perm-del-btn:hover { color: #e55; background: #fff0f0; }
 
     .archive-empty-msg { text-align: center; color: #2da862; opacity: 0.5; padding: 28px 0; font-size: 0.9rem; }
 
-    /* ── スマホ対応 ── */
     @media (max-width: 600px) {
       body { padding: 0; background: #fff; }
       .wrapper { flex-direction: column; gap: 0; max-width: 100%; }
@@ -508,14 +353,6 @@
       .folder-name { max-width: 80px; overflow: hidden; text-overflow: ellipsis; }
       .add-folder-btn { padding: 5px 8px; font-size: 0.8rem; }
       .sidebar-divider { display: none; }
-      .folder-summary {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 0;
-        box-shadow: none;
-        border-top: 1px solid #eee;
-        padding: 14px 12px 24px;
-      }
       .logout-btn { padding: 5px 8px; font-size: 0.75rem; margin-top: 0; }
       .main { border-radius: 0; box-shadow: none; padding: 14px 12px 24px; }
       h1 { font-size: 1.1rem; }
@@ -526,7 +363,6 @@
       .login-box { width: 90%; padding: 40px 24px; }
     }
 
-    /* ── ログイン画面 ── */
     #loginScreen {
       position: fixed; inset: 0;
       background: #f0f2f5;
@@ -550,7 +386,6 @@
     .google-login-btn:hover { background: #f8f8f8; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .google-login-btn img { width: 20px; height: 20px; }
 
-    /* ── ログアウトボタン ── */
     .logout-btn {
       display: flex; align-items: center; gap: 5px;
       padding: 7px 8px; border-radius: 8px; border: none;
@@ -564,7 +399,6 @@
 </head>
 <body>
 
-<!-- ログイン画面 -->
 <div id="loginScreen">
   <div class="login-box">
     <h2>📋 Todoリスト</h2>
@@ -578,14 +412,12 @@
 
 <div class="wrapper" id="mainWrapper" style="display:none">
 
-  <!-- 左：フォルダサイドバー -->
   <div class="sidebar">
     <div class="sidebar-title">フォルダ</div>
     <div id="folderList"></div>
     <div class="sidebar-divider"></div>
     <button class="add-folder-btn" onclick="showAddFolder()">＋ 新しいフォルダ</button>
     <div class="sidebar-divider" style="margin-top:8px"></div>
-    <input type="file" id="backupFileInput" accept="application/json,.json" style="display:none">
     <button class="logout-btn" id="logoutBtn">↩ ログアウト</button>
     <div class="folder-input-box" id="folderInputBox">
       <input type="text" id="folderNameInput" placeholder="フォルダ名... (Shift+Enter)" maxlength="30">
@@ -595,7 +427,6 @@
     </div>
   </div>
 
-  <!-- 右：メインパネル -->
   <div class="main">
     <div class="main-header">
       <h1>Todoリスト</h1>
@@ -606,8 +437,6 @@
       <button class="active" onclick="setFilter('all', this)">すべて</button>
       <button onclick="setFilter('active', this)">未完了</button>
       <button onclick="setFilter('done', this)">完了済み</button>
-      <button id="sortPriorityBtn" onclick="toggleSortPriority()">優先度順</button>
-      <button id="sortDateBtn" onclick="toggleSortDate()">日付順</button>
     </div>
 
     <div class="input-area" id="inputArea">
@@ -624,7 +453,6 @@
           <label>優先度：</label>
           <select id="taskPrioritySelect">
             <option value="none">なし</option>
-            <option value="today">今日</option>
             <option value="high">高</option>
             <option value="mid">中</option>
             <option value="low">低</option>
@@ -642,17 +470,15 @@
     <div class="empty" id="empty">タスクはありません</div>
   </div>
 
-  <div class="folder-summary" id="folderSummary"></div>
-
 </div>
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getFirestore, doc, setDoc, onSnapshot, collection, query, orderBy, limit, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
   import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
   const firebaseConfig = {
-    apiKey: "AIzaSyBUY8uoFtPPHfMaNWx4AbFMMp1anMA-U38",
+    apiKey: "AIzaSyBU•••••••••••••••••••••••••••••••",
     authDomain: "my-todo-4a40d.firebaseapp.com",
     projectId: "my-todo-4a40d",
     storageBucket: "my-todo-4a40d.firebasestorage.app",
@@ -666,12 +492,6 @@
   let currentDataRef = null;
   let lastSavedData  = '';
   let unsubSnap      = null;
-  let applyingRemoteSnapshot = false;
-  let currentUserId = '';
-  let blockedEmptySaveAlerted = false;
-  let lastSavedHadUsefulData = false;
-  let latestCloudBackupSignature = '';
-  let cloudBackupFailedAlerted = false;
 
   document.getElementById('loginBtn').onclick = () => {
     signInWithPopup(auth, provider).catch(() => {
@@ -681,7 +501,8 @@
   document.getElementById('logoutBtn').onclick = () => signOut(auth);
 
   const UNCATEGORIZED  = '未分類';
-  const PRIORITY_CLASS = { today: 'p-today', high: 'p-high', mid: 'p-mid', low: 'p-low', none: 'p-none' };
+  const PRIORITY_CLASS = { high: 'p-high', mid: 'p-mid', low: 'p-low', none: 'p-none' };
+  const PRIORITY_CYCLE = ['none', 'high', 'mid', 'low'];
 
   let folders         = [UNCATEGORIZED];
   let todos           = [];
@@ -690,194 +511,23 @@
 
   let activeFolder = 'all';
   let filter = 'all';
-  let sortMode = 'none';
-  let folderSummarySort = 'count';
   let dragSrcIdx = null;
 
-  function dataObject() {
-    return { folders, todos, archivedTodos, archivedFolders };
-  }
-
-  function dataSignature(data) {
-    return JSON.stringify([data.folders, data.todos, data.archivedTodos, data.archivedFolders]);
-  }
-
-  function hasUsefulData(data) {
-    return (data.todos || []).length > 0 ||
-      (data.archivedTodos || []).length > 0 ||
-      (data.archivedFolders || []).length > 0 ||
-      (data.folders || []).some(f => f !== UNCATEGORIZED);
-  }
-
-  function localBackupKey() {
-    return `todoAutoBackups:${currentUserId || 'anonymous'}`;
-  }
-
-  function readLocalBackups() {
-    try {
-      return JSON.parse(localStorage.getItem(localBackupKey()) || '[]');
-    } catch {
-      return [];
-    }
-  }
-
-  function storeLocalBackup(reason) {
-    const data = dataObject();
-    if (!hasUsefulData(data)) return;
-    const entry = {
-      savedAt: new Date().toISOString(),
-      reason,
-      data,
-    };
-    const backups = readLocalBackups()
-      .filter(b => dataSignature(b.data || {}) !== dataSignature(data));
-    backups.unshift(entry);
-    localStorage.setItem(localBackupKey(), JSON.stringify(backups.slice(0, 20)));
-  }
-
-  function cloudBackupRef(id) {
-    if (!currentUserId) return null;
-    return doc(db, 'users', currentUserId, 'backups', id);
-  }
-
-  function makeBackupId() {
-    return new Date().toISOString().replace(/[:.]/g, '-');
-  }
-
-  function storeCloudBackup(reason, sourceData = dataObject()) {
-    if (!currentUserId || !hasUsefulData(sourceData)) return;
-    const signature = dataSignature(sourceData);
-    if (signature === latestCloudBackupSignature) return;
-    latestCloudBackupSignature = signature;
-    const savedAt = new Date().toISOString();
-    const backupRef = cloudBackupRef(makeBackupId());
-    setDoc(backupRef, {
-      savedAt,
-      reason,
-      folders: sourceData.folders || [UNCATEGORIZED],
-      todos: sourceData.todos || [],
-      archivedTodos: sourceData.archivedTodos || [],
-      archivedFolders: sourceData.archivedFolders || [],
-    }).catch(() => {
-      latestCloudBackupSignature = '';
-      if (!cloudBackupFailedAlerted) {
-        alert('クラウド自動バックアップに失敗しました。Firestoreルールで users/{uid}/backups への書き込みを許可してください。');
-        cloudBackupFailedAlerted = true;
-      }
-    });
-  }
-
-  async function latestCloudBackup() {
-    if (!currentUserId) return null;
-    try {
-      const q = query(
-        collection(db, 'users', currentUserId, 'backups'),
-        orderBy('savedAt', 'desc'),
-        limit(1)
-      );
-      const snap = await getDocs(q);
-      if (snap.empty) return null;
-      const data = snap.docs[0].data();
-      if (!hasUsefulData(data)) return null;
-      return {
-        savedAt: data.savedAt || '',
-        reason: data.reason || 'cloud-backup',
-        data,
-      };
-    } catch {
-      return null;
-    }
-  }
-
-  function applyData(data) {
-    folders         = Array.isArray(data.folders) && data.folders.length ? data.folders : [UNCATEGORIZED];
-    todos           = Array.isArray(data.todos) ? data.todos.map(t => ({
-      text: t.text, done: t.done || false,
-      folder: t.folder || UNCATEGORIZED, priority: t.priority || 'none',
-    })) : [];
-    archivedTodos   = Array.isArray(data.archivedTodos) ? data.archivedTodos : [];
-    archivedFolders = Array.isArray(data.archivedFolders) ? data.archivedFolders : [];
-    archivedTodos.forEach(t => {
-      if (t.archivedAsFolder && t.folder && !archivedFolders.includes(t.folder)) {
-        archivedFolders.push(t.folder);
-      }
-    });
-  }
-
-  function downloadBackup() {
-    const payload = {
-      app: 'todo',
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      data: dataObject(),
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `todo-backup-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  async function restoreLatestLocalBackup() {
-    const localLatest = readLocalBackups().find(b => hasUsefulData(b.data || {})) || null;
-    const cloudLatest = await latestCloudBackup();
-    const latest = [localLatest, cloudLatest]
-      .filter(Boolean)
-      .sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''))[0];
-    if (!latest) {
-      alert('復元できる自動バックアップがありません');
-      return;
-    }
-    const savedAt = latest.savedAt ? new Date(latest.savedAt).toLocaleString() : '日時不明';
-    if (!confirm(`${savedAt} の自動バックアップを復元します。現在の内容は上書きされます。`)) return;
-    applyData(latest.data);
-    lastSavedData = '';
-    render();
-  }
-
-  function restoreFromBackupFile(file) {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const parsed = JSON.parse(reader.result);
-        const data = parsed.data || parsed;
-        if (!hasUsefulData(data)) throw new Error('empty backup');
-        if (!confirm('バックアップファイルから復元します。現在の内容は上書きされます。')) return;
-        applyData(data);
-        lastSavedData = '';
-        render();
-      } catch {
-        alert('バックアップファイルを読み込めませんでした');
-      }
-    };
-    reader.readAsText(file);
+  function hasData() {
+    return todos.length > 0 || archivedTodos.length > 0 ||
+           archivedFolders.length > 0 || folders.length > 1;
   }
 
   function save() {
     if (!currentDataRef) return;
-    if (applyingRemoteSnapshot) return;
-    const currentData = dataObject();
-    const current = dataSignature(currentData);
+    // データが空の初期状態のときはFirestoreに書き込まない（誤上書き防止）
+    if (!hasData() && lastSavedData === '') return;
+    const current = JSON.stringify([folders, todos, archivedTodos, archivedFolders]);
     if (current === lastSavedData) return;
-    if (!hasUsefulData(currentData) && lastSavedHadUsefulData) {
-      if (!blockedEmptySaveAlerted) {
-        alert('空データでの上書きをブロックしました。必要な場合はFirebaseのbackupsを確認してください。');
-        blockedEmptySaveAlerted = true;
-      }
-      return;
-    }
-    storeLocalBackup('before-save');
     lastSavedData = current;
-    lastSavedHadUsefulData = hasUsefulData(currentData);
-    blockedEmptySaveAlerted = false;
-    setDoc(currentDataRef, currentData);
-    storeCloudBackup('auto-save', currentData);
+    setDoc(currentDataRef, { folders, todos, archivedTodos, archivedFolders });
   }
 
-  /* ── 日付ソート ── */
   function extractDate(name) {
     let m;
     m = name.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
@@ -903,7 +553,6 @@
     return `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
   }
 
-  /* ── サイドバー描画 ── */
   function renderSidebar() {
     const list = document.getElementById('folderList');
     list.innerHTML = '';
@@ -914,18 +563,15 @@
       list.appendChild(makeFolderItem(f, f, '📁', count, f !== UNCATEGORIZED));
     });
 
-    // アーカイブ項目（区切り線の後）
     const archiveDiv = makeFolderItem('アーカイブ', 'archive', '🗄', archivedTodos.length, false);
     archiveDiv.classList.add('archive-item');
 
-    // サイドバーに区切り線+アーカイブを追加
     const archiveDivider = document.createElement('div');
     archiveDivider.className = 'sidebar-divider';
     archiveDivider.style.marginTop = '6px';
     list.appendChild(archiveDivider);
     list.appendChild(archiveDiv);
 
-    // フォルダ選択（すべて表示時のみ）
     const sel   = document.getElementById('taskFolderSelect');
     const field = document.getElementById('folderMetaField');
     if (activeFolder === 'all') {
@@ -937,7 +583,6 @@
       field.classList.add('hidden');
     }
 
-    // ヘッダーラベル
     const lbl = document.getElementById('activeFolderLabel');
     if (activeFolder === 'all') {
       lbl.textContent = '';
@@ -950,130 +595,11 @@
       lbl.className = 'active-folder-label';
     }
 
-    // 入力欄・フィルターをアーカイブ時は非表示
     const isArchive = activeFolder === 'archive';
     document.getElementById('inputArea').style.display  = isArchive ? 'none' : '';
     document.getElementById('filterBar').style.display  = isArchive ? 'none' : '';
     document.getElementById('clearBtn').style.display   = isArchive ? 'none' : '';
     document.getElementById('stats').style.display      = isArchive ? 'none' : '';
-    renderFolderSummary();
-  }
-
-  function renderFolderSummary() {
-    const box = document.getElementById('folderSummary');
-    if (!box) return;
-
-    const activeTodos = todos.filter(t => !t.done);
-    const PRIORITY_SCORE = { today: 5, high: 4, mid: 3, low: 2, none: 1 };
-    const rows = folders.map(folder => {
-      const items = activeTodos.filter(t => t.folder === folder);
-      const counts = {
-        today: items.filter(t => (t.priority || 'none') === 'today').length,
-        high:  items.filter(t => (t.priority || 'none') === 'high').length,
-        mid:   items.filter(t => (t.priority || 'none') === 'mid').length,
-        low:   items.filter(t => (t.priority || 'none') === 'low').length,
-        none:  items.filter(t => (t.priority || 'none') === 'none').length,
-      };
-      return {
-        folder,
-        total: items.length,
-        date: extractDate(folder),
-        priorityScore: Object.entries(counts).reduce((sum, [key, count]) =>
-          sum + (PRIORITY_SCORE[key] || 0) * count, 0),
-        counts,
-      };
-    }).filter(row => row.total > 0);
-
-    if (folderSummarySort === 'date') {
-      rows.sort((a, b) => {
-        if (a.date && b.date) return a.date - b.date;
-        if (a.date) return -1;
-        if (b.date) return 1;
-        return a.folder.localeCompare(b.folder, 'ja');
-      });
-    } else if (folderSummarySort === 'priority') {
-      rows.sort((a, b) =>
-        b.priorityScore - a.priorityScore ||
-        b.counts.today - a.counts.today ||
-        b.counts.high - a.counts.high ||
-        b.counts.mid - a.counts.mid ||
-        b.total - a.total ||
-        a.folder.localeCompare(b.folder, 'ja')
-      );
-    } else {
-      rows.sort((a, b) => b.total - a.total || a.folder.localeCompare(b.folder, 'ja'));
-    }
-
-    const maxTotal = Math.max(1, ...rows.map(row => row.total));
-    box.innerHTML = '';
-
-    const title = document.createElement('div');
-    title.className = 'folder-summary-title';
-    title.textContent = 'フォルダ別タスク';
-
-    const tabs = document.createElement('div');
-    tabs.className = 'folder-summary-tabs';
-    tabs.innerHTML = `
-      <button class="${folderSummarySort === 'count' ? 'active' : ''}" onclick="setFolderSummarySort('count')">数量順</button>
-      <button class="${folderSummarySort === 'priority' ? 'active' : ''}" onclick="setFolderSummarySort('priority')">優先度順</button>
-      <button class="${folderSummarySort === 'date' ? 'active' : ''}" onclick="setFolderSummarySort('date')">日付順</button>
-    `;
-
-    const legend = document.createElement('div');
-    legend.className = 'folder-summary-legend';
-    legend.innerHTML = `
-      <span><i class="legend-dot p-today"></i>今日</span>
-      <span><i class="legend-dot p-high"></i>高</span>
-      <span><i class="legend-dot p-mid"></i>中</span>
-      <span><i class="legend-dot p-low"></i>低</span>
-      <span><i class="legend-dot p-none"></i>なし</span>
-    `;
-
-    box.append(title, tabs, legend);
-
-    if (rows.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'folder-summary-empty';
-      empty.textContent = '未完了タスクはありません';
-      box.appendChild(empty);
-      return;
-    }
-
-    rows.forEach(row => {
-      const rowEl = document.createElement('div');
-      rowEl.className = 'folder-summary-row';
-      rowEl.title = row.folder;
-      rowEl.onclick = () => { activeFolder = row.folder; render(); };
-
-      const head = document.createElement('div');
-      head.className = 'folder-summary-head';
-
-      const nameEl = document.createElement('span');
-      nameEl.className = 'folder-summary-name';
-      nameEl.textContent = row.folder;
-
-      const countEl = document.createElement('span');
-      countEl.className = 'folder-summary-count';
-      countEl.textContent = `${row.total}件`;
-
-      head.append(nameEl, countEl);
-
-      const bar = document.createElement('div');
-      bar.className = 'folder-summary-bar';
-      bar.style.width = `${Math.max(8, (row.total / maxTotal) * 100)}%`;
-
-      ['today', 'high', 'mid', 'low', 'none'].forEach(key => {
-        const count = row.counts[key];
-        if (count === 0) return;
-        const seg = document.createElement('span');
-        seg.className = `folder-summary-seg ${PRIORITY_CLASS[key]}`;
-        seg.style.width = `${(count / row.total) * 100}%`;
-        bar.appendChild(seg);
-      });
-
-      rowEl.append(head, bar);
-      box.appendChild(rowEl);
-    });
   }
 
   function makeFolderItem(label, key, icon, count, deletable) {
@@ -1114,7 +640,6 @@
     return div;
   }
 
-  /* ── フォルダクリック＆ダブルクリック ── */
   let _clickTimer = null;
   let _clickKey   = null;
 
@@ -1126,7 +651,6 @@
 
     const key = item.dataset.key;
 
-    // アーカイブはシングルクリックのみ
     if (key === 'archive') {
       clearTimeout(_clickTimer); _clickTimer = null; _clickKey = null;
       activeFolder = 'archive';
@@ -1193,7 +717,6 @@
     input.addEventListener('blur', () => setTimeout(commit, 80));
   }
 
-  /* ── フォルダ追加・削除 ── */
   function showAddFolder() {
     document.getElementById('folderInputBox').classList.add('visible');
     document.getElementById('folderNameInput').focus();
@@ -1216,13 +739,11 @@
       : `「${name}」をアーカイブします。\n（以前に個別アーカイブしたタスクも自動的にこのフォルダにまとめられます）`;
     if (!confirm(msg)) return;
     const today = new Date().toISOString().slice(0, 10);
-    // 残っているアクティブタスクを通常アーカイブ（特別フラグなし）
     todos.filter(t => t.folder === name).forEach(t => {
       archivedTodos.unshift({ ...t, done: true, archivedAt: today });
     });
     todos   = todos.filter(t => t.folder !== name);
     folders = folders.filter(f => f !== name);
-    // フォルダをアーカイブ済みリストに追加
     if (!archivedFolders.includes(name)) archivedFolders.push(name);
     sortFolders();
     if (activeFolder === name) activeFolder = 'all';
@@ -1252,29 +773,18 @@
     if (e.key === 'Escape') cancelAddFolder();
   });
 
-  /* ── タスク描画 ── */
-  const PRIORITY_ORDER = { today: 1, high: 2, mid: 3, low: 4, none: 5 };
-
   function visibleTodos() {
     let items = todos.map((t, i) => ({ t, i }));
     if (activeFolder !== 'all') items = items.filter(({ t }) => t.folder === activeFolder);
     if (filter === 'active') items = items.filter(({ t }) => !t.done);
     if (filter === 'done')   items = items.filter(({ t }) => t.done);
-    if (sortMode === 'priority') {
-      items.sort((a, b) => {
-        const pa = PRIORITY_ORDER[a.t.priority || 'none'] || PRIORITY_ORDER.none;
-        const pb = PRIORITY_ORDER[b.t.priority || 'none'] || PRIORITY_ORDER.none;
-        return pa - pb;
-      });
-    } else if (sortMode === 'date') {
-      items.sort((a, b) => {
-        const da = extractDate(a.t.text), db = extractDate(b.t.text);
-        if (da && db) return da - db;
-        if (da) return -1;
-        if (db) return 1;
-        return 0;
-      });
-    }
+    items.sort((a, b) => {
+      const da = extractDate(a.t.text), db = extractDate(b.t.text);
+      if (da && db) return da - db;
+      if (da) return -1;
+      if (db) return 1;
+      return 0;
+    });
     return items;
   }
 
@@ -1303,44 +813,7 @@
       empty.style.display = 'block';
     } else {
       empty.style.display = 'none';
-      if (activeFolder === 'all' && sortMode === 'priority') {
-        const PRIORITY_GROUPS = [
-          { key: 'today', label: '🟢 今日' },
-          { key: 'high', label: '🔴 高' },
-          { key: 'mid',  label: '🟡 中' },
-          { key: 'low',  label: '🔵 低' },
-          { key: 'none', label: '⚪ なし' },
-        ];
-        PRIORITY_GROUPS.forEach(({ key, label }) => {
-          const groupItems = items.filter(({ t }) => (t.priority || 'none') === key);
-          if (groupItems.length === 0) return;
-          const header = document.createElement('div');
-          header.className = 'section-header';
-          header.innerHTML = `<span class="sec-name">${label}</span><span class="sec-count">${groupItems.length}件</span>`;
-          list.appendChild(header);
-          groupItems.forEach(({ t, i }) => renderItem(list, t, i));
-        });
-      } else if (activeFolder === 'all' && sortMode === 'date') {
-        const dateGrouped = {};
-        items.forEach(item => {
-          const d = extractDate(item.t.text);
-          const key = d ? formatDate(d.toISOString()) : '日付なし';
-          if (!dateGrouped[key]) dateGrouped[key] = [];
-          dateGrouped[key].push(item);
-        });
-        const sortedKeys = Object.keys(dateGrouped).sort((a, b) => {
-          if (a === '日付なし') return 1;
-          if (b === '日付なし') return -1;
-          return a.localeCompare(b);
-        });
-        sortedKeys.forEach(key => {
-          const header = document.createElement('div');
-          header.className = 'section-header';
-          header.innerHTML = `<span class="sec-name">📅 ${key}</span><span class="sec-count">${dateGrouped[key].length}件</span>`;
-          list.appendChild(header);
-          dateGrouped[key].forEach(({ t, i }) => renderItem(list, t, i));
-        });
-      } else if (activeFolder === 'all') {
+      if (activeFolder === 'all') {
         const grouped = {};
         folders.forEach(f => { grouped[f] = []; });
         items.forEach(item => {
@@ -1364,7 +837,6 @@
     save();
   }
 
-  /* ── アーカイブ描画 ── */
   function renderArchive(list, empty) {
     if (archivedTodos.length === 0 && archivedFolders.length === 0) {
       empty.style.display = 'block';
@@ -1377,10 +849,7 @@
     empty.className = 'empty';
     empty.textContent = 'タスクはありません';
 
-    // archivedFolders に入っているフォルダ名 → フォルダグループ
-    // それ以外 → 日付グループ
     if (archivedFolders.length > 0) {
-      // フォルダごとの最新アーカイブ日を求めてソート
       const folderDateMap = {};
       archivedFolders.forEach(f => { folderDateMap[f] = ''; });
       archivedTodos.forEach(t => {
@@ -1419,7 +888,6 @@
       });
     }
 
-    // 日付グループ（アーカイブ済みフォルダに属さないタスク、新しい順）
     const individualItems = archivedTodos.map((t, i) => ({ t, i }))
       .filter(({ t }) => !archivedFolders.includes(t.folder));
     if (individualItems.length > 0) {
@@ -1447,7 +915,7 @@
     li.classList.add('archive-li');
 
     const dot = document.createElement('span');
-    dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none'] || PRIORITY_CLASS.none}`;
+    dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none']}`;
     dot.style.cursor = 'default';
 
     const label = document.createElement('span');
@@ -1471,7 +939,6 @@
     permDel.onclick = () => { archivedTodos.splice(archIdx, 1); render(); };
 
     if (isFolderGroup) {
-      // フォルダグループ内はフォルダバッジ不要、日付のみ
       li.append(dot, label, dateEl, restoreBtn, permDel);
     } else {
       const badge = document.createElement('span');
@@ -1484,7 +951,6 @@
 
   function restoreFromArchive(archIdx) {
     const t = archivedTodos[archIdx];
-    // フォルダが削除されていたら未分類へ
     const targetFolder = folders.includes(t.folder) ? t.folder : UNCATEGORIZED;
     todos.push({ text: t.text, done: false, folder: targetFolder, priority: t.priority || 'none' });
     archivedTodos.splice(archIdx, 1);
@@ -1502,11 +968,13 @@
     handle.textContent = '⠿';
 
     const dot = document.createElement('span');
-    dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none'] || PRIORITY_CLASS.none}`;
-    dot.title = 'クリックで優先度を選択';
-    dot.onclick = e => {
-      e.stopPropagation();
-      showPrioritySelector(li, dot, realIdx);
+    dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none']}`;
+    dot.title = '優先度をクリックで変更';
+    dot.onclick = () => {
+      const cur  = todos[realIdx].priority || 'none';
+      const next = PRIORITY_CYCLE[(PRIORITY_CYCLE.indexOf(cur) + 1) % PRIORITY_CYCLE.length];
+      todos[realIdx].priority = next;
+      render();
     };
 
     const cb = document.createElement('input');
@@ -1558,48 +1026,6 @@
     list.appendChild(li);
   }
 
-  function showPrioritySelector(li, dot, realIdx) {
-    if (li.querySelector('.priority-select')) return;
-
-    const select = document.createElement('select');
-    select.className = 'priority-select';
-    [
-      ['today', '今日'],
-      ['high', '高'],
-      ['mid', '中'],
-      ['low', '低'],
-      ['none', 'なし'],
-    ].forEach(([value, label]) => {
-      const opt = document.createElement('option');
-      opt.value = value;
-      opt.textContent = label;
-      if ((todos[realIdx].priority || 'none') === value) opt.selected = true;
-      select.appendChild(opt);
-    });
-
-    dot.style.display = 'none';
-    li.insertBefore(select, dot.nextSibling);
-    select.focus();
-
-    const close = () => {
-      if (!select.isConnected) return;
-      select.remove();
-      dot.style.display = '';
-    };
-    select.onchange = () => {
-      todos[realIdx].priority = select.value;
-      render();
-    };
-    select.onkeydown = e => {
-      if (e.key === 'Escape') close();
-      if (e.key === 'Enter') {
-        todos[realIdx].priority = select.value;
-        render();
-      }
-    };
-    select.onblur = () => setTimeout(close, 80);
-  }
-
   function startEdit(li, idx, label, hint, del) {
     if (todos[idx].done) return;
     const input = document.createElement('input');
@@ -1615,7 +1041,6 @@
     input.addEventListener('blur', commit);
   }
 
-  /* ── タスク追加 ── */
   function addTodo() {
     const input = document.getElementById('todoInput');
     const text  = input.value.trim();
@@ -1635,31 +1060,11 @@
 
   function setFilter(f, btn) {
     filter = f;
-    document.querySelectorAll('.filters button:not(#sortPriorityBtn)').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
     render();
   }
 
-  function toggleSortPriority() {
-    sortMode = sortMode === 'priority' ? 'none' : 'priority';
-    document.getElementById('sortPriorityBtn').classList.toggle('active', sortMode === 'priority');
-    document.getElementById('sortDateBtn').classList.toggle('active', false);
-    render();
-  }
-
-  function toggleSortDate() {
-    sortMode = sortMode === 'date' ? 'none' : 'date';
-    document.getElementById('sortDateBtn').classList.toggle('active', sortMode === 'date');
-    document.getElementById('sortPriorityBtn').classList.toggle('active', false);
-    render();
-  }
-
-  function setFolderSummarySort(mode) {
-    folderSummarySort = ['count', 'priority', 'date'].includes(mode) ? mode : 'count';
-    render();
-  }
-
-  /* ── 完了済みをアーカイブ ── */
   function clearDone() {
     const today = new Date().toISOString().slice(0, 10);
     const scope = activeFolder === 'all' ? null : activeFolder;
@@ -1669,33 +1074,16 @@
     render();
   }
 
-  // type="module"ではonclick=""からグローバル関数を呼べないため、windowに登録
-  window.showAddFolder      = showAddFolder;
-  window.cancelAddFolder    = cancelAddFolder;
-  window.confirmAddFolder   = confirmAddFolder;
-  window.setFilter          = setFilter;
-  window.clearDone          = clearDone;
-  window.addTodo            = addTodo;
-  window.downloadBackup     = downloadBackup;
-  window.restoreLatestLocalBackup = restoreLatestLocalBackup;
-  window.toggleSortPriority = toggleSortPriority;
-  window.toggleSortDate     = toggleSortDate;
-  window.setFolderSummarySort = setFolderSummarySort;
-
-  document.getElementById('backupFileInput').addEventListener('change', e => {
-    restoreFromBackupFile(e.target.files[0]);
-    e.target.value = '';
-  });
+  window.showAddFolder    = showAddFolder;
+  window.cancelAddFolder  = cancelAddFolder;
+  window.confirmAddFolder = confirmAddFolder;
+  window.setFilter        = setFilter;
+  window.clearDone        = clearDone;
+  window.addTodo          = addTodo;
 
   document.getElementById('todoInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
+    if (e.key === 'Enter' && e.shiftKey) addTodo();
     else if (e.key === 'Enter') e.preventDefault();
-  });
-  document.getElementById('taskFolderSelect').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
-  });
-  document.getElementById('taskPrioritySelect').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); addTodo(); }
   });
 
   document.addEventListener('keydown', e => {
@@ -1710,42 +1098,41 @@
     }
   }, true);
 
-  // ログイン状態を監視
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // ログイン済み → アプリ表示
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainWrapper').style.display = '';
-      currentUserId = user.uid;
       currentDataRef = doc(db, 'users', user.uid);
       lastSavedData  = '';
-      lastSavedHadUsefulData = false;
       folders = [UNCATEGORIZED]; todos = []; archivedTodos = []; archivedFolders = [];
 
       if (unsubSnap) unsubSnap();
       unsubSnap = onSnapshot(currentDataRef, { includeMetadataChanges: true }, (snap) => {
         if (snap.metadata.hasPendingWrites) return;
-        applyingRemoteSnapshot = true;
         if (snap.exists()) {
           const data = snap.data();
-          applyData(data);
-          if (hasUsefulData(dataObject())) storeLocalBackup('remote-snapshot');
-          lastSavedData = dataSignature(dataObject());
-          lastSavedHadUsefulData = hasUsefulData(dataObject());
-        } else {
-          lastSavedData = dataSignature(dataObject());
-          lastSavedHadUsefulData = false;
+          folders         = data.folders         || [UNCATEGORIZED];
+          todos           = (data.todos          || []).map(t => ({
+            text: t.text, done: t.done || false,
+            folder: t.folder || UNCATEGORIZED, priority: t.priority || 'none',
+          }));
+          archivedTodos   = data.archivedTodos   || [];
+          archivedFolders = data.archivedFolders || [];
+          archivedTodos.forEach(t => {
+            if (t.archivedAsFolder && t.folder && !archivedFolders.includes(t.folder)) {
+              archivedFolders.push(t.folder);
+            }
+          });
         }
         sortFolders();
+        // スナップショット受信後にlastSavedDataを更新→save()が空データで上書きするのを防ぐ
+        lastSavedData = JSON.stringify([folders, todos, archivedTodos, archivedFolders]);
         render();
-        applyingRemoteSnapshot = false;
       });
     } else {
-      // 未ログイン → ログイン画面表示
       document.getElementById('loginScreen').style.display = 'flex';
       document.getElementById('mainWrapper').style.display = 'none';
       currentDataRef = null;
-      currentUserId = '';
       if (unsubSnap) { unsubSnap(); unsubSnap = null; }
     }
   });
