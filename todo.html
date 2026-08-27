@@ -6,17 +6,9 @@
   <title>Todoリスト</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f0f2f5; min-height: 100vh;
-      display: flex; justify-content: center; align-items: flex-start; padding: 40px 16px;
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f0f2f5; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 40px 16px; }
     .wrapper { display: flex; gap: 16px; width: 100%; max-width: 860px; align-items: flex-start; }
-    .sidebar {
-      flex-shrink: 0; width: max-content; min-width: 150px; max-width: 280px;
-      background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.09);
-      padding: 20px 14px; display: flex; flex-direction: column; gap: 2px;
-    }
+    .sidebar { flex-shrink: 0; width: max-content; min-width: 150px; max-width: 280px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.09); padding: 20px 14px; display: flex; flex-direction: column; gap: 2px; }
     .sidebar-title { font-size: 0.72rem; font-weight: 700; color: #aaa; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; white-space: nowrap; }
     .folder-item { display: flex; align-items: center; gap: 6px; padding: 7px 8px; border-radius: 8px; cursor: pointer; transition: background 0.12s; color: #555; font-size: 0.86rem; }
     .folder-item:hover { background: #f3f4f8; }
@@ -25,12 +17,10 @@
     .folder-icon { font-size: 0.9rem; flex-shrink: 0; }
     .folder-name { flex: 1; white-space: nowrap; }
     .folder-count { font-size: 0.73rem; color: #bbb; flex-shrink: 0; padding-left: 4px; }
-    .folder-item.active .folder-count { color: #a0aaee; }
-    .folder-item.archive-item.active .folder-count { color: #7bcca0; }
     .folder-del-btn { display: none; background: none; border: none; font-size: 0.75rem; cursor: pointer; padding: 1px 4px; border-radius: 3px; flex-shrink: 0; color: #bbb; }
+    .folder-archive-btn { display: none; background: none; border: none; font-size: 0.75rem; cursor: pointer; padding: 1px 4px; border-radius: 3px; flex-shrink: 0; color: #bbb; }
     .folder-item:hover .folder-del-btn, .folder-item:hover .folder-archive-btn { display: block; }
     .folder-del-btn:hover { color: #e55; background: #fff0f0; }
-    .folder-archive-btn { display: none; background: none; border: none; font-size: 0.75rem; cursor: pointer; padding: 1px 4px; border-radius: 3px; flex-shrink: 0; color: #bbb; }
     .folder-archive-btn:hover { color: #2da862; background: #f0faf4; }
     .folder-edit-input { flex: 1; border: 1.5px solid #4f6ef7; border-radius: 5px; font-size: 0.84rem; padding: 1px 5px; outline: none; min-width: 80px; }
     .sidebar-divider { height: 1px; background: #f0f0f0; margin: 8px 0; }
@@ -63,12 +53,11 @@
     .clear-btn { font-size: 0.76rem; color: #e55; background: none; border: none; cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: background 0.15s; }
     .clear-btn:hover { background: #fff0f0; }
     .clear-btn:disabled { color: #ddd; cursor: default; }
-    .clear-btn:disabled:hover { background: none; }
     .section-header { display: flex; align-items: center; gap: 6px; padding: 10px 4px 4px; border-bottom: 2px solid #eef0ff; margin-bottom: 2px; }
     .section-header .sec-name { font-size: 0.76rem; font-weight: 700; color: #4f6ef7; }
     .section-header .sec-count { font-size: 0.72rem; color: #bbb; }
     ul { list-style: none; }
-    li { display: flex; align-items: center; gap: 8px; padding: 8px 4px; border-bottom: 1px solid #f2f2f2; transition: background 0.12s, opacity 0.15s; border-radius: 6px; }
+    li { display: flex; align-items: center; gap: 8px; padding: 8px 4px; border-bottom: 1px solid #f2f2f2; transition: background 0.12s; border-radius: 6px; }
     li:last-child { border-bottom: none; }
     li:hover { background: #fafafa; }
     li.dragging { opacity: 0.35; }
@@ -76,10 +65,7 @@
     .drag-handle { color: #ccc; cursor: grab; flex-shrink: 0; user-select: none; font-size: 0.9rem; }
     .priority-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; cursor: pointer; transition: transform 0.12s; }
     .priority-dot:hover { transform: scale(1.4); }
-    .p-high { background: #e44; }
-    .p-mid  { background: #f90; }
-    .p-low  { background: #4f6ef7; }
-    .p-none { background: #ddd; }
+    .p-high { background: #e44; } .p-mid { background: #f90; } .p-low { background: #4f6ef7; } .p-none { background: #ddd; }
     li input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: #4f6ef7; flex-shrink: 0; }
     li .label { flex: 1; font-size: 0.93rem; color: #333; word-break: break-word; }
     li.done .label { text-decoration: line-through; color: #bbb; }
@@ -96,7 +82,7 @@
     .archive-section-header.folder-group { border-bottom-color: #d0e8ff; }
     .archive-section-header.folder-group .sec-name { color: #4f6ef7; }
     .archive-section-header .sec-spacer { flex: 1; }
-    .folder-perm-del-btn { display: none; background: none; border: 1px solid #f5c6c6; color: #e55; font-size: 0.72rem; cursor: pointer; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; transition: background 0.12s; }
+    .folder-perm-del-btn { display: none; background: none; border: 1px solid #f5c6c6; color: #e55; font-size: 0.72rem; cursor: pointer; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
     .archive-section-header:hover .folder-perm-del-btn { display: block; }
     .folder-perm-del-btn:hover { background: #fff0f0; }
     li.archive-li { background: #fafafa; cursor: default; }
@@ -104,9 +90,9 @@
     li.archive-li .label { color: #888; text-decoration: line-through; }
     .arch-folder-badge { font-size: 0.7rem; background: #eef0ff; color: #7080cc; border-radius: 10px; padding: 1px 7px; white-space: nowrap; flex-shrink: 0; }
     .arch-date { font-size: 0.7rem; color: #ccc; white-space: nowrap; flex-shrink: 0; }
-    .restore-btn { background: none; border: 1px solid #cce8d8; color: #2da862; font-size: 0.72rem; cursor: pointer; padding: 2px 7px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; transition: background 0.12s; }
+    .restore-btn { background: none; border: 1px solid #cce8d8; color: #2da862; font-size: 0.72rem; cursor: pointer; padding: 2px 7px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
     .restore-btn:hover { background: #e8f5ee; }
-    .perm-del-btn { background: none; border: none; color: #ddd; font-size: 1rem; cursor: pointer; padding: 2px 4px; border-radius: 4px; flex-shrink: 0; transition: color 0.15s, background 0.15s; }
+    .perm-del-btn { background: none; border: none; color: #ddd; font-size: 1rem; cursor: pointer; padding: 2px 4px; border-radius: 4px; flex-shrink: 0; }
     .perm-del-btn:hover { color: #e55; background: #fff0f0; }
     .archive-empty-msg { text-align: center; color: #2da862; opacity: 0.5; padding: 28px 0; font-size: 0.9rem; }
     @media (max-width: 600px) {
@@ -121,8 +107,6 @@
       .logout-btn { padding: 5px 8px; font-size: 0.75rem; margin-top: 0; }
       .main { border-radius: 0; box-shadow: none; padding: 14px 12px 24px; }
       h1 { font-size: 1.1rem; }
-      .input-row input { font-size: 0.9rem; }
-      li { padding: 8px 2px; }
       li .label { font-size: 0.88rem; }
       .move-sel { display: none !important; }
       .login-box { width: 90%; padding: 40px 24px; }
@@ -130,17 +114,20 @@
     #loginScreen { position: fixed; inset: 0; background: #f0f2f5; display: flex; align-items: center; justify-content: center; z-index: 100; }
     .login-box { background: #fff; border-radius: 16px; box-shadow: 0 4px 32px rgba(0,0,0,0.12); padding: 48px 40px; text-align: center; width: 320px; }
     .login-box h2 { font-size: 1.5rem; color: #1a1a2e; margin-bottom: 8px; }
-    .login-box p  { font-size: 0.87rem; color: #999; margin-bottom: 32px; }
-    .google-login-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px 20px; background: #fff; border: 1.5px solid #ddd; border-radius: 8px; font-size: 0.93rem; color: #333; cursor: pointer; transition: background 0.15s, box-shadow 0.15s; }
-    .google-login-btn:hover { background: #f8f8f8; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .login-box p { font-size: 0.87rem; color: #999; margin-bottom: 32px; }
+    .google-login-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px 20px; background: #fff; border: 1.5px solid #ddd; border-radius: 8px; font-size: 0.93rem; color: #333; cursor: pointer; transition: background 0.15s; }
+    .google-login-btn:hover { background: #f8f8f8; }
     .google-login-btn img { width: 20px; height: 20px; }
     .logout-btn { display: flex; align-items: center; gap: 5px; padding: 7px 8px; border-radius: 8px; border: none; background: none; cursor: pointer; color: #ccc; font-size: 0.78rem; width: 100%; text-align: left; transition: background 0.12s, color 0.12s; white-space: nowrap; margin-top: 4px; }
     .logout-btn:hover { background: #fff0f0; color: #e55; }
+    #loadingMsg { position: fixed; inset: 0; background: #f0f2f5; display: flex; align-items: center; justify-content: center; z-index: 200; font-size: 1rem; color: #aaa; }
   </style>
 </head>
 <body>
 
-<div id="loginScreen">
+<div id="loadingMsg">読み込み中...</div>
+
+<div id="loginScreen" style="display:none">
   <div class="login-box">
     <h2>📋 Todoリスト</h2>
     <p>Googleアカウントでログインして<br>利用を開始してください</p>
@@ -148,6 +135,7 @@
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
       Googleでログイン
     </button>
+    <p id="loginError" style="color:#e55;font-size:0.8rem;margin-top:16px;display:none">ログインに失敗しました。もう一度お試しください。</p>
   </div>
 </div>
 
@@ -160,7 +148,7 @@
     <div class="sidebar-divider" style="margin-top:8px"></div>
     <button class="logout-btn" id="logoutBtn">↩ ログアウト</button>
     <div class="folder-input-box" id="folderInputBox">
-      <input type="text" id="folderNameInput" placeholder="フォルダ名... (Shift+Enter)" maxlength="30">
+      <input type="text" id="folderNameInput" placeholder="フォルダ名..." maxlength="30">
       <div class="btn-row">
         <button class="ok" onclick="confirmAddFolder()">作成</button>
       </div>
@@ -172,9 +160,9 @@
       <span class="active-folder-label" id="activeFolderLabel"></span>
     </div>
     <div class="filters" id="filterBar">
-      <button class="active" onclick="setFilter('all', this)">すべて</button>
-      <button onclick="setFilter('active', this)">未完了</button>
-      <button onclick="setFilter('done', this)">完了済み</button>
+      <button class="active" onclick="setFilter('all',this)">すべて</button>
+      <button onclick="setFilter('active',this)">未完了</button>
+      <button onclick="setFilter('done',this)">完了済み</button>
     </div>
     <div class="input-area" id="inputArea">
       <div class="input-row" style="display:flex;gap:6px">
@@ -209,7 +197,7 @@
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
   import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyBU•••••••••••••••••••••••••••••••",
@@ -224,14 +212,25 @@
   const db       = getFirestore(app);
   const auth     = getAuth(app);
   const provider = new GoogleAuthProvider();
+
   let currentDataRef = null;
   let lastSavedData  = '';
   let unsubSnap      = null;
 
-  document.getElementById('loginBtn').onclick = () => {
-    signInWithPopup(auth, provider).catch(() => {
-      signInWithRedirect(auth, provider);
-    });
+  // リダイレクトログイン後の結果を処理
+  getRedirectResult(auth).catch(() => {});
+
+  document.getElementById('loginBtn').onclick = async () => {
+    document.getElementById('loginError').style.display = 'none';
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (e) {
+      if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user') {
+        signInWithRedirect(auth, provider);
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
   };
   document.getElementById('logoutBtn').onclick = () => signOut(auth);
 
@@ -257,22 +256,15 @@
 
   function extractDate(name) {
     let m;
-    m = name.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
-    if (m) return new Date(+m[1], +m[2]-1, +m[3]);
-    m = name.match(/^(\d{4})(\d{2})(\d{2})(?!\d)/);
-    if (m) return new Date(+m[1], +m[2]-1, +m[3]);
-    m = name.match(/^(\d{1,2})[-\/](\d{1,2})(?!\d)/);
-    if (m) return new Date(new Date().getFullYear(), +m[1]-1, +m[2]);
-    m = name.match(/^(\d{2})(\d{2})(?!\d)/);
-    if (m && +m[1]>=1 && +m[1]<=12 && +m[2]>=1 && +m[2]<=31)
-      return new Date(new Date().getFullYear(), +m[1]-1, +m[2]);
+    m = name.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/); if (m) return new Date(+m[1],+m[2]-1,+m[3]);
+    m = name.match(/^(\d{4})(\d{2})(\d{2})(?!\d)/);          if (m) return new Date(+m[1],+m[2]-1,+m[3]);
+    m = name.match(/^(\d{1,2})[-\/](\d{1,2})(?!\d)/);        if (m) return new Date(new Date().getFullYear(),+m[1]-1,+m[2]);
     return null;
   }
   function sortFolders() {
-    const withDate    = folders.filter(f => f !== UNCATEGORIZED && extractDate(f));
-    const withoutDate = folders.filter(f => f !== UNCATEGORIZED && !extractDate(f));
-    withDate.sort((a, b) => extractDate(a) - extractDate(b));
-    folders = [UNCATEGORIZED, ...withDate, ...withoutDate];
+    const wd = folders.filter(f => f !== UNCATEGORIZED && extractDate(f)).sort((a,b) => extractDate(a)-extractDate(b));
+    const nd = folders.filter(f => f !== UNCATEGORIZED && !extractDate(f));
+    folders = [UNCATEGORIZED, ...wd, ...nd];
   }
   function formatDate(iso) {
     const d = new Date(iso);
@@ -282,368 +274,301 @@
   function renderSidebar() {
     const list = document.getElementById('folderList');
     list.innerHTML = '';
-    list.appendChild(makeFolderItem('すべて', 'all', '🗂', todos.length, false));
-    folders.forEach(f => {
-      list.appendChild(makeFolderItem(f, f, '📁', todos.filter(t => t.folder === f).length, f !== UNCATEGORIZED));
-    });
-    const archiveDiv = makeFolderItem('アーカイブ', 'archive', '🗄', archivedTodos.length, false);
-    archiveDiv.classList.add('archive-item');
-    const archiveDivider = document.createElement('div');
-    archiveDivider.className = 'sidebar-divider';
-    archiveDivider.style.marginTop = '6px';
-    list.appendChild(archiveDivider);
-    list.appendChild(archiveDiv);
+    list.appendChild(makeFolderItem('すべて','all','🗂',todos.length,false));
+    folders.forEach(f => list.appendChild(makeFolderItem(f,f,'📁',todos.filter(t=>t.folder===f).length,f!==UNCATEGORIZED)));
+    const ad = makeFolderItem('アーカイブ','archive','🗄',archivedTodos.length,false);
+    ad.classList.add('archive-item');
+    const div = document.createElement('div'); div.className='sidebar-divider'; div.style.marginTop='6px';
+    list.appendChild(div); list.appendChild(ad);
 
     const sel = document.getElementById('taskFolderSelect');
     const field = document.getElementById('folderMetaField');
     if (activeFolder === 'all') {
       field.classList.remove('hidden');
       const prev = sel.value;
-      sel.innerHTML = folders.map(f => `<option value="${f}">${f}</option>`).join('');
+      sel.innerHTML = folders.map(f=>`<option value="${f}">${f}</option>`).join('');
       if (folders.includes(prev)) sel.value = prev;
-    } else {
-      field.classList.add('hidden');
-    }
+    } else { field.classList.add('hidden'); }
+
     const lbl = document.getElementById('activeFolderLabel');
-    if (activeFolder === 'all') { lbl.textContent = ''; lbl.className = 'active-folder-label'; }
-    else if (activeFolder === 'archive') { lbl.textContent = '— アーカイブ'; lbl.className = 'active-folder-label archive'; }
-    else { lbl.textContent = `— ${activeFolder}`; lbl.className = 'active-folder-label'; }
-    const isArchive = activeFolder === 'archive';
-    document.getElementById('inputArea').style.display = isArchive ? 'none' : '';
-    document.getElementById('filterBar').style.display = isArchive ? 'none' : '';
-    document.getElementById('clearBtn').style.display  = isArchive ? 'none' : '';
-    document.getElementById('stats').style.display     = isArchive ? 'none' : '';
+    if (activeFolder==='all') { lbl.textContent=''; lbl.className='active-folder-label'; }
+    else if (activeFolder==='archive') { lbl.textContent='— アーカイブ'; lbl.className='active-folder-label archive'; }
+    else { lbl.textContent=`— ${activeFolder}`; lbl.className='active-folder-label'; }
+
+    const isArc = activeFolder==='archive';
+    ['inputArea','filterBar','clearBtn','stats'].forEach(id => document.getElementById(id).style.display = isArc?'none':'');
   }
 
   function makeFolderItem(label, key, icon, count, deletable) {
     const div = document.createElement('div');
-    div.className = 'folder-item' + (activeFolder === key ? ' active' : '');
-    div.dataset.key = key;
-    div.dataset.deletable = deletable ? 'true' : 'false';
-    const iconEl = document.createElement('span'); iconEl.className = 'folder-icon'; iconEl.textContent = icon;
-    const nameEl = document.createElement('span'); nameEl.className = 'folder-name'; nameEl.textContent = label;
-    const cntEl  = document.createElement('span'); cntEl.className = 'folder-count'; cntEl.textContent = count;
-    div.append(iconEl, nameEl, cntEl);
+    div.className = 'folder-item'+(activeFolder===key?' active':'');
+    div.dataset.key = key; div.dataset.deletable = deletable?'true':'false';
+    const ie = document.createElement('span'); ie.className='folder-icon'; ie.textContent=icon;
+    const ne = document.createElement('span'); ne.className='folder-name'; ne.textContent=label;
+    const ce = document.createElement('span'); ce.className='folder-count'; ce.textContent=count;
+    div.append(ie,ne,ce);
     if (deletable) {
-      const archBtn = document.createElement('button');
-      archBtn.className = 'folder-archive-btn'; archBtn.textContent = '🗄'; archBtn.title = 'フォルダごとアーカイブ';
-      archBtn.onclick = e => { e.stopPropagation(); folderArchive(key); };
-      div.appendChild(archBtn);
-      const delBtn = document.createElement('button');
-      delBtn.className = 'folder-del-btn'; delBtn.textContent = '✕'; delBtn.title = '削除';
-      delBtn.onclick = e => { e.stopPropagation(); deleteFolder(key); };
-      div.appendChild(delBtn);
+      const ab = document.createElement('button'); ab.className='folder-archive-btn'; ab.textContent='🗄'; ab.title='フォルダごとアーカイブ';
+      ab.onclick = e => { e.stopPropagation(); folderArchive(key); }; div.appendChild(ab);
+      const db = document.createElement('button'); db.className='folder-del-btn'; db.textContent='✕'; db.title='削除';
+      db.onclick = e => { e.stopPropagation(); deleteFolder(key); }; div.appendChild(db);
     }
     return div;
   }
 
-  let _clickTimer = null, _clickKey = null;
+  let _ct=null, _ck=null;
   document.getElementById('folderList').addEventListener('click', e => {
     const item = e.target.closest('.folder-item');
-    if (!item || e.target.closest('.folder-del-btn') || e.target.closest('.folder-archive-btn')) return;
+    if (!item||e.target.closest('.folder-del-btn')||e.target.closest('.folder-archive-btn')) return;
     const key = item.dataset.key;
-    if (key === 'archive') {
-      clearTimeout(_clickTimer); _clickTimer = null; _clickKey = null;
-      activeFolder = 'archive'; render(); return;
-    }
-    if (_clickTimer && _clickKey === key) {
-      clearTimeout(_clickTimer); _clickTimer = null; _clickKey = null;
-      activeFolder = key; render();
-      if (item.dataset.deletable === 'true') {
-        const fresh = [...document.querySelectorAll('.folder-item')].find(el => el.dataset.key === key);
-        if (fresh) startFolderEdit(fresh);
-      }
+    if (key==='archive') { clearTimeout(_ct);_ct=null;_ck=null; activeFolder='archive'; render(); return; }
+    if (_ct&&_ck===key) {
+      clearTimeout(_ct);_ct=null;_ck=null; activeFolder=key; render();
+      if (item.dataset.deletable==='true') { const f=[...document.querySelectorAll('.folder-item')].find(el=>el.dataset.key===key); if(f) startFolderEdit(f); }
     } else {
-      clearTimeout(_clickTimer); _clickKey = key;
-      _clickTimer = setTimeout(() => { _clickTimer = null; _clickKey = null; activeFolder = key; render(); }, 250);
+      clearTimeout(_ct); _ck=key;
+      _ct=setTimeout(()=>{_ct=null;_ck=null;activeFolder=key;render();},250);
     }
   });
 
   function startFolderEdit(div) {
     if (div.querySelector('.folder-edit-input')) return;
-    const key = div.dataset.key;
-    const nameEl = div.querySelector('.folder-name');
-    const cntEl  = div.querySelector('.folder-count');
-    const delBtn = div.querySelector('.folder-del-btn');
-    div.onclick = null; nameEl.style.display = 'none'; cntEl.style.display = 'none';
-    if (delBtn) delBtn.style.display = 'none';
-    const input = document.createElement('input');
-    input.type = 'text'; input.className = 'folder-edit-input'; input.value = key; input.maxLength = 30;
-    div.insertBefore(input, cntEl); input.focus(); input.select();
-    let done = false;
-    const commit = () => {
-      if (done) return; done = true;
-      const newName = input.value.trim();
-      if (newName && newName !== key) {
-        if (folders.includes(newName)) { alert('同じ名前のフォルダが既にあります'); done = false; render(); return; }
-        todos           = todos.map(t => t.folder === key ? { ...t, folder: newName } : t);
-        archivedTodos   = archivedTodos.map(t => t.folder === key ? { ...t, folder: newName } : t);
-        folders         = folders.map(f => f === key ? newName : f);
-        archivedFolders = archivedFolders.map(f => f === key ? newName : f);
-        sortFolders(); if (activeFolder === key) activeFolder = newName;
+    const key=div.dataset.key, ne=div.querySelector('.folder-name'), ce=div.querySelector('.folder-count'), db=div.querySelector('.folder-del-btn');
+    div.onclick=null; ne.style.display='none'; ce.style.display='none'; if(db) db.style.display='none';
+    const inp=document.createElement('input'); inp.type='text'; inp.className='folder-edit-input'; inp.value=key; inp.maxLength=30;
+    div.insertBefore(inp,ce); inp.focus(); inp.select();
+    let done=false;
+    const commit=()=>{
+      if(done) return; done=true;
+      const nn=inp.value.trim();
+      if(nn&&nn!==key) {
+        if(folders.includes(nn)){alert('同じ名前のフォルダが既にあります');done=false;render();return;}
+        todos=todos.map(t=>t.folder===key?{...t,folder:nn}:t);
+        archivedTodos=archivedTodos.map(t=>t.folder===key?{...t,folder:nn}:t);
+        folders=folders.map(f=>f===key?nn:f);
+        archivedFolders=archivedFolders.map(f=>f===key?nn:f);
+        sortFolders(); if(activeFolder===key) activeFolder=nn;
       }
       render();
     };
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); commit(); } if (e.key === 'Escape') { done = true; render(); } });
-    input.addEventListener('blur', () => setTimeout(commit, 80));
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();commit();}if(e.key==='Escape'){done=true;render();}});
+    inp.addEventListener('blur',()=>setTimeout(commit,80));
   }
 
   function showAddFolder() { document.getElementById('folderInputBox').classList.add('visible'); document.getElementById('folderNameInput').focus(); }
-  function cancelAddFolder() { document.getElementById('folderInputBox').classList.remove('visible'); document.getElementById('folderNameInput').value = ''; }
+  function cancelAddFolder() { document.getElementById('folderInputBox').classList.remove('visible'); document.getElementById('folderNameInput').value=''; }
   function confirmAddFolder() {
-    const name = document.getElementById('folderNameInput').value.trim();
-    if (!name) return;
-    if (folders.includes(name)) { alert('同じ名前のフォルダが既にあります'); return; }
-    folders.push(name); sortFolders(); cancelAddFolder(); activeFolder = name; render();
+    const name=document.getElementById('folderNameInput').value.trim();
+    if(!name) return;
+    if(folders.includes(name)){alert('同じ名前のフォルダが既にあります');return;}
+    folders.push(name); sortFolders(); cancelAddFolder(); activeFolder=name; render();
   }
   function folderArchive(name) {
-    const count = todos.filter(t => t.folder === name).length;
-    const msg = count > 0
-      ? `「${name}」のタスク ${count} 件をすべてアーカイブし、フォルダを削除します。\n（以前に個別アーカイブしたタスクも自動的にこのフォルダにまとめられます）`
-      : `「${name}」をアーカイブします。\n（以前に個別アーカイブしたタスクも自動的にこのフォルダにまとめられます）`;
-    if (!confirm(msg)) return;
-    const today = new Date().toISOString().slice(0, 10);
-    todos.filter(t => t.folder === name).forEach(t => { archivedTodos.unshift({ ...t, done: true, archivedAt: today }); });
-    todos = todos.filter(t => t.folder !== name);
-    folders = folders.filter(f => f !== name);
-    if (!archivedFolders.includes(name)) archivedFolders.push(name);
-    sortFolders(); if (activeFolder === name) activeFolder = 'all'; render();
+    const count=todos.filter(t=>t.folder===name).length;
+    if(!confirm(`「${name}」をアーカイブします。${count>0?`\nタスク ${count} 件も一緒にアーカイブされます。`:''}`)) return;
+    const today=new Date().toISOString().slice(0,10);
+    todos.filter(t=>t.folder===name).forEach(t=>archivedTodos.unshift({...t,done:true,archivedAt:today}));
+    todos=todos.filter(t=>t.folder!==name); folders=folders.filter(f=>f!==name);
+    if(!archivedFolders.includes(name)) archivedFolders.push(name);
+    sortFolders(); if(activeFolder===name) activeFolder='all'; render();
   }
   function deleteFolderFromArchive(name) {
-    const count = archivedTodos.filter(t => t.folder === name).length;
-    if (!confirm(`「${name}」フォルダとタスク ${count} 件を完全に削除します。\nこの操作は元に戻せません。`)) return;
-    archivedTodos   = archivedTodos.filter(t => t.folder !== name);
-    archivedFolders = archivedFolders.filter(f => f !== name);
-    render();
+    const count=archivedTodos.filter(t=>t.folder===name).length;
+    if(!confirm(`「${name}」フォルダとタスク ${count} 件を完全に削除します。\nこの操作は元に戻せません。`)) return;
+    archivedTodos=archivedTodos.filter(t=>t.folder!==name);
+    archivedFolders=archivedFolders.filter(f=>f!==name); render();
   }
   function deleteFolder(name) {
-    if (!confirm(`「${name}」を削除します。\nタスクは「${UNCATEGORIZED}」へ移動します。`)) return;
-    todos         = todos.map(t => t.folder === name ? { ...t, folder: UNCATEGORIZED } : t);
-    archivedTodos = archivedTodos.map(t => t.folder === name ? { ...t, folder: UNCATEGORIZED } : t);
-    folders = folders.filter(f => f !== name); sortFolders();
-    if (activeFolder === name) activeFolder = 'all'; render();
+    if(!confirm(`「${name}」を削除します。タスクは「${UNCATEGORIZED}」へ移動します。`)) return;
+    todos=todos.map(t=>t.folder===name?{...t,folder:UNCATEGORIZED}:t);
+    archivedTodos=archivedTodos.map(t=>t.folder===name?{...t,folder:UNCATEGORIZED}:t);
+    folders=folders.filter(f=>f!==name); sortFolders();
+    if(activeFolder===name) activeFolder='all'; render();
   }
-  document.getElementById('folderNameInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.shiftKey) confirmAddFolder();
-    if (e.key === 'Escape') cancelAddFolder();
+
+  document.getElementById('folderNameInput').addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&e.shiftKey) confirmAddFolder();
+    if(e.key==='Escape') cancelAddFolder();
   });
 
   function visibleTodos() {
-    let items = todos.map((t, i) => ({ t, i }));
-    if (activeFolder !== 'all') items = items.filter(({ t }) => t.folder === activeFolder);
-    if (filter === 'active') items = items.filter(({ t }) => !t.done);
-    if (filter === 'done')   items = items.filter(({ t }) => t.done);
-    items.sort((a, b) => {
-      const da = extractDate(a.t.text), db = extractDate(b.t.text);
-      if (da && db) return da - db; if (da) return -1; if (db) return 1; return 0;
-    });
+    let items=todos.map((t,i)=>({t,i}));
+    if(activeFolder!=='all') items=items.filter(({t})=>t.folder===activeFolder);
+    if(filter==='active') items=items.filter(({t})=>!t.done);
+    if(filter==='done')   items=items.filter(({t})=>t.done);
+    items.sort((a,b)=>{const da=extractDate(a.t.text),db=extractDate(b.t.text);if(da&&db)return da-db;if(da)return -1;if(db)return 1;return 0;});
     return items;
   }
 
   function render() {
     renderSidebar();
-    const list = document.getElementById('todoList');
-    const empty = document.getElementById('empty');
-    const stats = document.getElementById('stats');
-    const clearBtn = document.getElementById('clearBtn');
-    list.innerHTML = '';
-    if (activeFolder === 'archive') { renderArchive(list, empty); return; }
-    const scope = activeFolder === 'all' ? todos : todos.filter(t => t.folder === activeFolder);
-    const doneCount = scope.filter(t => t.done).length;
-    stats.textContent = scope.length ? `${doneCount} / ${scope.length} 完了` : '';
-    clearBtn.disabled = doneCount === 0;
-    const items = visibleTodos();
-    if (items.length === 0) {
-      empty.style.display = 'block';
-    } else {
-      empty.style.display = 'none';
-      if (activeFolder === 'all') {
-        const grouped = {};
-        folders.forEach(f => { grouped[f] = []; });
-        items.forEach(item => { const f = item.t.folder || UNCATEGORIZED; if (!grouped[f]) grouped[f] = []; grouped[f].push(item); });
-        folders.forEach(f => {
-          if (!grouped[f] || grouped[f].length === 0) return;
-          const header = document.createElement('div');
-          header.className = 'section-header';
-          header.innerHTML = `<span class="sec-name">📁 ${f}</span><span class="sec-count">${grouped[f].length}件</span>`;
-          list.appendChild(header);
-          grouped[f].forEach(({ t, i }) => renderItem(list, t, i));
+    const list=document.getElementById('todoList'), empty=document.getElementById('empty');
+    const stats=document.getElementById('stats'), clearBtn=document.getElementById('clearBtn');
+    list.innerHTML='';
+    if(activeFolder==='archive'){renderArchive(list,empty);return;}
+    const scope=activeFolder==='all'?todos:todos.filter(t=>t.folder===activeFolder);
+    const dc=scope.filter(t=>t.done).length;
+    stats.textContent=scope.length?`${dc} / ${scope.length} 完了`:'';
+    clearBtn.disabled=dc===0;
+    const items=visibleTodos();
+    if(items.length===0){empty.style.display='block';}
+    else {
+      empty.style.display='none';
+      if(activeFolder==='all'){
+        const grouped={};
+        folders.forEach(f=>{grouped[f]=[];});
+        items.forEach(({t,i})=>{const f=t.folder||UNCATEGORIZED;if(!grouped[f])grouped[f]=[];grouped[f].push({t,i});});
+        folders.forEach(f=>{
+          if(!grouped[f]||grouped[f].length===0) return;
+          const h=document.createElement('div'); h.className='section-header';
+          h.innerHTML=`<span class="sec-name">📁 ${f}</span><span class="sec-count">${grouped[f].length}件</span>`;
+          list.appendChild(h); grouped[f].forEach(({t,i})=>renderItem(list,t,i));
         });
-      } else {
-        items.forEach(({ t, i }) => renderItem(list, t, i));
-      }
+      } else { items.forEach(({t,i})=>renderItem(list,t,i)); }
     }
     save();
   }
 
-  function renderArchive(list, empty) {
-    if (archivedTodos.length === 0 && archivedFolders.length === 0) {
-      empty.style.display = 'block'; empty.className = 'archive-empty-msg'; empty.textContent = 'アーカイブはありません'; save(); return;
+  function renderArchive(list,empty) {
+    if(archivedTodos.length===0&&archivedFolders.length===0){
+      empty.style.display='block'; empty.className='archive-empty-msg'; empty.textContent='アーカイブはありません'; save(); return;
     }
-    empty.style.display = 'none'; empty.className = 'empty'; empty.textContent = 'タスクはありません';
-    if (archivedFolders.length > 0) {
-      const folderDateMap = {};
-      archivedFolders.forEach(f => { folderDateMap[f] = ''; });
-      archivedTodos.forEach(t => { if (archivedFolders.includes(t.folder) && (t.archivedAt || '') > folderDateMap[t.folder]) folderDateMap[t.folder] = t.archivedAt || ''; });
-      const sortedFolders = [...archivedFolders].sort((a, b) => folderDateMap[b].localeCompare(folderDateMap[a]));
-      sortedFolders.forEach(fname => {
-        const items = archivedTodos.map((t, i) => ({ t, i })).filter(({ t }) => t.folder === fname);
-        const header = document.createElement('div'); header.className = 'archive-section-header folder-group';
-        const nameEl = document.createElement('span'); nameEl.className = 'sec-name'; nameEl.textContent = `📁 ${fname}`;
-        const cntEl  = document.createElement('span'); cntEl.className = 'sec-count'; cntEl.textContent = `${items.length}件`;
-        const spacer = document.createElement('span'); spacer.className = 'sec-spacer';
-        const delBtn = document.createElement('button'); delBtn.className = 'folder-perm-del-btn'; delBtn.textContent = '完全削除'; delBtn.title = 'このフォルダとすべてのタスクを完全に削除'; delBtn.onclick = () => deleteFolderFromArchive(fname);
-        header.append(nameEl, cntEl, spacer, delBtn); list.appendChild(header);
-        items.forEach(({ t, i }) => renderArchiveItem(list, t, i, true));
+    empty.style.display='none'; empty.className='empty'; empty.textContent='タスクはありません';
+    if(archivedFolders.length>0){
+      const fdm={}; archivedFolders.forEach(f=>{fdm[f]='';});
+      archivedTodos.forEach(t=>{if(archivedFolders.includes(t.folder)&&(t.archivedAt||'')>fdm[t.folder])fdm[t.folder]=t.archivedAt||'';});
+      [...archivedFolders].sort((a,b)=>fdm[b].localeCompare(fdm[a])).forEach(fname=>{
+        const items=archivedTodos.map((t,i)=>({t,i})).filter(({t})=>t.folder===fname);
+        const h=document.createElement('div'); h.className='archive-section-header folder-group';
+        const ne=document.createElement('span'); ne.className='sec-name'; ne.textContent=`📁 ${fname}`;
+        const ce=document.createElement('span'); ce.className='sec-count'; ce.textContent=`${items.length}件`;
+        const sp=document.createElement('span'); sp.className='sec-spacer';
+        const db=document.createElement('button'); db.className='folder-perm-del-btn'; db.textContent='完全削除'; db.onclick=()=>deleteFolderFromArchive(fname);
+        h.append(ne,ce,sp,db); list.appendChild(h);
+        items.forEach(({t,i})=>renderArchiveItem(list,t,i,true));
       });
     }
-    const individualItems = archivedTodos.map((t, i) => ({ t, i })).filter(({ t }) => !archivedFolders.includes(t.folder));
-    if (individualItems.length > 0) {
-      const dateGrouped = {};
-      individualItems.forEach(({ t, i }) => { const d = t.archivedAt || '不明'; if (!dateGrouped[d]) dateGrouped[d] = []; dateGrouped[d].push({ t, i }); });
-      Object.keys(dateGrouped).sort((a, b) => b.localeCompare(a)).forEach(date => {
-        const header = document.createElement('div'); header.className = 'archive-section-header';
-        header.innerHTML = `<span class="sec-name">🗄 ${formatDate(date)}</span><span class="sec-count">${dateGrouped[date].length}件</span>`;
-        list.appendChild(header);
-        dateGrouped[date].forEach(({ t, i }) => renderArchiveItem(list, t, i, false));
+    const ind=archivedTodos.map((t,i)=>({t,i})).filter(({t})=>!archivedFolders.includes(t.folder));
+    if(ind.length>0){
+      const dg={};
+      ind.forEach(({t,i})=>{const d=t.archivedAt||'不明';if(!dg[d])dg[d]=[];dg[d].push({t,i});});
+      Object.keys(dg).sort((a,b)=>b.localeCompare(a)).forEach(date=>{
+        const h=document.createElement('div'); h.className='archive-section-header';
+        h.innerHTML=`<span class="sec-name">🗄 ${formatDate(date)}</span><span class="sec-count">${dg[date].length}件</span>`;
+        list.appendChild(h); dg[date].forEach(({t,i})=>renderArchiveItem(list,t,i,false));
       });
     }
     save();
   }
 
-  function renderArchiveItem(list, todo, archIdx, isFolderGroup) {
-    const li = document.createElement('li'); li.classList.add('archive-li');
-    const dot = document.createElement('span'); dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none']}`; dot.style.cursor = 'default';
-    const label = document.createElement('span'); label.className = 'label'; label.textContent = todo.text;
-    const dateEl = document.createElement('span'); dateEl.className = 'arch-date'; dateEl.textContent = formatDate(todo.archivedAt || new Date().toISOString().slice(0,10));
-    const restoreBtn = document.createElement('button'); restoreBtn.className = 'restore-btn'; restoreBtn.textContent = '復元'; restoreBtn.onclick = () => restoreFromArchive(archIdx);
-    const permDel = document.createElement('button'); permDel.className = 'perm-del-btn'; permDel.textContent = '×'; permDel.onclick = () => { archivedTodos.splice(archIdx, 1); render(); };
-    if (isFolderGroup) {
-      li.append(dot, label, dateEl, restoreBtn, permDel);
-    } else {
-      const badge = document.createElement('span'); badge.className = 'arch-folder-badge'; badge.textContent = todo.folder;
-      li.append(dot, label, badge, dateEl, restoreBtn, permDel);
-    }
+  function renderArchiveItem(list,todo,archIdx,isFolderGroup) {
+    const li=document.createElement('li'); li.classList.add('archive-li');
+    const dot=document.createElement('span'); dot.className=`priority-dot ${PRIORITY_CLASS[todo.priority||'none']}`; dot.style.cursor='default';
+    const lbl=document.createElement('span'); lbl.className='label'; lbl.textContent=todo.text;
+    const de=document.createElement('span'); de.className='arch-date'; de.textContent=formatDate(todo.archivedAt||new Date().toISOString().slice(0,10));
+    const rb=document.createElement('button'); rb.className='restore-btn'; rb.textContent='復元'; rb.onclick=()=>restoreFromArchive(archIdx);
+    const pd=document.createElement('button'); pd.className='perm-del-btn'; pd.textContent='×'; pd.onclick=()=>{archivedTodos.splice(archIdx,1);render();};
+    if(isFolderGroup){ li.append(dot,lbl,de,rb,pd); }
+    else { const b=document.createElement('span'); b.className='arch-folder-badge'; b.textContent=todo.folder; li.append(dot,lbl,b,de,rb,pd); }
     list.appendChild(li);
   }
 
   function restoreFromArchive(archIdx) {
-    const t = archivedTodos[archIdx];
-    const targetFolder = folders.includes(t.folder) ? t.folder : UNCATEGORIZED;
-    todos.push({ text: t.text, done: false, folder: targetFolder, priority: t.priority || 'none' });
-    archivedTodos.splice(archIdx, 1); activeFolder = targetFolder; render();
+    const t=archivedTodos[archIdx];
+    const tf=folders.includes(t.folder)?t.folder:UNCATEGORIZED;
+    todos.push({text:t.text,done:false,folder:tf,priority:t.priority||'none'});
+    archivedTodos.splice(archIdx,1); activeFolder=tf; render();
   }
 
-  function renderItem(list, todo, realIdx) {
-    const li = document.createElement('li');
-    if (todo.done) li.classList.add('done'); li.draggable = true;
-    const handle = document.createElement('span'); handle.className = 'drag-handle'; handle.textContent = '⠿';
-    const dot = document.createElement('span'); dot.className = `priority-dot ${PRIORITY_CLASS[todo.priority || 'none']}`; dot.title = '優先度をクリックで変更';
-    dot.onclick = () => { const cur = todos[realIdx].priority || 'none'; todos[realIdx].priority = PRIORITY_CYCLE[(PRIORITY_CYCLE.indexOf(cur) + 1) % PRIORITY_CYCLE.length]; render(); };
-    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = todo.done;
-    cb.onchange = () => { todos[realIdx].done = !todos[realIdx].done; render(); };
-    const label = document.createElement('span'); label.className = 'label'; label.textContent = todo.text; label.title = 'ダブルクリックで編集';
-    label.ondblclick = () => startEdit(li, realIdx, label, hint, del);
-    const hint = document.createElement('span'); hint.className = 'edit-hint'; hint.style.display = 'none'; hint.textContent = 'Enter保存 / Esc取消';
-    const moveSel = document.createElement('select'); moveSel.className = 'move-sel'; moveSel.title = 'フォルダを移動';
-    folders.forEach(f => { const opt = document.createElement('option'); opt.value = f; opt.textContent = f; if (f === todo.folder) opt.selected = true; moveSel.appendChild(opt); });
-    moveSel.onchange = () => { todos[realIdx].folder = moveSel.value; render(); };
-    moveSel.onclick = e => e.stopPropagation();
-    const del = document.createElement('button'); del.className = 'delete'; del.textContent = '×'; del.title = '削除';
-    del.onclick = () => { todos.splice(realIdx, 1); render(); };
-    li.append(handle, dot, cb, label, hint, moveSel, del);
-    li.addEventListener('dragstart', () => { dragSrcIdx = realIdx; setTimeout(() => li.classList.add('dragging'), 0); });
-    li.addEventListener('dragend',   () => li.classList.remove('dragging'));
-    li.addEventListener('dragover',  e => { e.preventDefault(); li.classList.add('drag-over'); });
-    li.addEventListener('dragleave', () => li.classList.remove('drag-over'));
-    li.addEventListener('drop', e => {
-      e.preventDefault(); li.classList.remove('drag-over');
-      if (dragSrcIdx !== null && dragSrcIdx !== realIdx) {
-        const moved = todos.splice(dragSrcIdx, 1)[0];
-        todos.splice(dragSrcIdx < realIdx ? realIdx - 1 : realIdx, 0, moved);
-        dragSrcIdx = null; render();
+  function renderItem(list,todo,realIdx) {
+    const li=document.createElement('li'); if(todo.done) li.classList.add('done'); li.draggable=true;
+    const handle=document.createElement('span'); handle.className='drag-handle'; handle.textContent='⠿';
+    const dot=document.createElement('span'); dot.className=`priority-dot ${PRIORITY_CLASS[todo.priority||'none']}`; dot.title='優先度をクリックで変更';
+    dot.onclick=()=>{const c=todos[realIdx].priority||'none';todos[realIdx].priority=PRIORITY_CYCLE[(PRIORITY_CYCLE.indexOf(c)+1)%PRIORITY_CYCLE.length];render();};
+    const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=todo.done;
+    cb.onchange=()=>{todos[realIdx].done=!todos[realIdx].done;render();};
+    const lbl=document.createElement('span'); lbl.className='label'; lbl.textContent=todo.text; lbl.title='ダブルクリックで編集';
+    const hint=document.createElement('span'); hint.className='edit-hint'; hint.style.display='none'; hint.textContent='Enter保存 / Esc取消';
+    lbl.ondblclick=()=>startEdit(li,realIdx,lbl,hint,del);
+    const ms=document.createElement('select'); ms.className='move-sel'; ms.title='フォルダを移動';
+    folders.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;if(f===todo.folder)o.selected=true;ms.appendChild(o);});
+    ms.onchange=()=>{todos[realIdx].folder=ms.value;render();}; ms.onclick=e=>e.stopPropagation();
+    const del=document.createElement('button'); del.className='delete'; del.textContent='×'; del.title='削除';
+    del.onclick=()=>{todos.splice(realIdx,1);render();};
+    li.append(handle,dot,cb,lbl,hint,ms,del);
+    li.addEventListener('dragstart',()=>{dragSrcIdx=realIdx;setTimeout(()=>li.classList.add('dragging'),0);});
+    li.addEventListener('dragend',()=>li.classList.remove('dragging'));
+    li.addEventListener('dragover',e=>{e.preventDefault();li.classList.add('drag-over');});
+    li.addEventListener('dragleave',()=>li.classList.remove('drag-over'));
+    li.addEventListener('drop',e=>{
+      e.preventDefault();li.classList.remove('drag-over');
+      if(dragSrcIdx!==null&&dragSrcIdx!==realIdx){
+        const moved=todos.splice(dragSrcIdx,1)[0];
+        todos.splice(dragSrcIdx<realIdx?realIdx-1:realIdx,0,moved);
+        dragSrcIdx=null;render();
       }
     });
     list.appendChild(li);
   }
 
-  function startEdit(li, idx, label, hint, del) {
-    if (todos[idx].done) return;
-    const input = document.createElement('input'); input.type = 'text'; input.className = 'edit-input'; input.value = todos[idx].text; input.maxLength = 100;
-    label.style.display = 'none'; hint.style.display = ''; del.style.display = 'none';
-    li.insertBefore(input, hint); input.focus(); input.select();
-    const commit = () => { const v = input.value.trim(); if (v) todos[idx].text = v; render(); };
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') render(); });
-    input.addEventListener('blur', commit);
+  function startEdit(li,idx,lbl,hint,del) {
+    if(todos[idx].done) return;
+    const inp=document.createElement('input'); inp.type='text'; inp.className='edit-input'; inp.value=todos[idx].text; inp.maxLength=100;
+    lbl.style.display='none'; hint.style.display=''; del.style.display='none';
+    li.insertBefore(inp,hint); inp.focus(); inp.select();
+    const commit=()=>{const v=inp.value.trim();if(v)todos[idx].text=v;render();};
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')commit();if(e.key==='Escape')render();});
+    inp.addEventListener('blur',commit);
   }
 
   function addTodo() {
-    const input = document.getElementById('todoInput');
-    const text = input.value.trim(); if (!text) return;
-    const folder = activeFolder === 'all' || activeFolder === 'archive'
-      ? (document.getElementById('taskFolderSelect').value || UNCATEGORIZED) : activeFolder;
-    const priority = document.getElementById('taskPrioritySelect').value;
-    todos.push({ text, done: false, folder, priority }); input.value = '';
-    if (filter === 'done') { filter = 'all'; document.querySelectorAll('.filters button').forEach((b, i) => b.classList.toggle('active', i === 0)); }
+    const inp=document.getElementById('todoInput'), text=inp.value.trim(); if(!text) return;
+    const folder=activeFolder==='all'||activeFolder==='archive'?(document.getElementById('taskFolderSelect').value||UNCATEGORIZED):activeFolder;
+    const priority=document.getElementById('taskPrioritySelect').value;
+    todos.push({text,done:false,folder,priority}); inp.value='';
+    if(filter==='done'){filter='all';document.querySelectorAll('.filters button').forEach((b,i)=>b.classList.toggle('active',i===0));}
     render();
   }
-  function setFilter(f, btn) {
-    filter = f; document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active'); render();
-  }
-  function clearDone() {
-    const today = new Date().toISOString().slice(0, 10);
-    const scope = activeFolder === 'all' ? null : activeFolder;
-    todos.filter(t => scope ? (t.folder === scope && t.done) : t.done).forEach(t => archivedTodos.unshift({ ...t, archivedAt: today }));
-    todos = todos.filter(t => scope ? (t.folder !== scope || !t.done) : !t.done); render();
+  function setFilter(f,btn){filter=f;document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');render();}
+  function clearDone(){
+    const today=new Date().toISOString().slice(0,10), scope=activeFolder==='all'?null:activeFolder;
+    todos.filter(t=>scope?(t.folder===scope&&t.done):t.done).forEach(t=>archivedTodos.unshift({...t,archivedAt:today}));
+    todos=todos.filter(t=>scope?(t.folder!==scope||!t.done):!t.done); render();
   }
 
-  window.showAddFolder    = showAddFolder;
-  window.cancelAddFolder  = cancelAddFolder;
-  window.confirmAddFolder = confirmAddFolder;
-  window.setFilter        = setFilter;
-  window.clearDone        = clearDone;
-  window.addTodo          = addTodo;
+  window.showAddFolder=showAddFolder; window.cancelAddFolder=cancelAddFolder; window.confirmAddFolder=confirmAddFolder;
+  window.setFilter=setFilter; window.clearDone=clearDone; window.addTodo=addTodo;
 
-  document.getElementById('todoInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.shiftKey) addTodo(); else if (e.key === 'Enter') e.preventDefault();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key !== 'Enter' || e.shiftKey) return;
-    if (e.target.matches('input, textarea, select, button, a')) return;
-    e.preventDefault();
-    const folderBox = document.getElementById('folderInputBox');
-    if (folderBox.classList.contains('visible')) document.getElementById('folderNameInput').focus();
-    else document.getElementById('todoInput').focus();
-  }, true);
+  document.getElementById('todoInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.shiftKey)addTodo();else if(e.key==='Enter')e.preventDefault();});
 
   onAuthStateChanged(auth, (user) => {
+    document.getElementById('loadingMsg').style.display='none';
     if (user) {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('mainWrapper').style.display = '';
-      currentDataRef = doc(db, 'users', user.uid);
-      lastSavedData = '';
-      folders = [UNCATEGORIZED]; todos = []; archivedTodos = []; archivedFolders = [];
-      if (unsubSnap) unsubSnap();
-      unsubSnap = onSnapshot(currentDataRef, { includeMetadataChanges: true }, (snap) => {
-        if (snap.metadata.hasPendingWrites) return;
-        if (snap.exists()) {
-          const data = snap.data();
-          folders         = data.folders || [UNCATEGORIZED];
-          todos           = (data.todos || []).map(t => ({ text: t.text, done: t.done || false, folder: t.folder || UNCATEGORIZED, priority: t.priority || 'none' }));
-          archivedTodos   = data.archivedTodos   || [];
-          archivedFolders = data.archivedFolders || [];
-          archivedTodos.forEach(t => { if (t.archivedAsFolder && t.folder && !archivedFolders.includes(t.folder)) archivedFolders.push(t.folder); });
+      document.getElementById('loginScreen').style.display='none';
+      document.getElementById('mainWrapper').style.display='';
+      currentDataRef=doc(db,'users',user.uid);
+      lastSavedData='';
+      folders=[UNCATEGORIZED];todos=[];archivedTodos=[];archivedFolders=[];
+      if(unsubSnap) unsubSnap();
+      unsubSnap=onSnapshot(currentDataRef,{includeMetadataChanges:true},(snap)=>{
+        if(snap.metadata.hasPendingWrites) return;
+        if(snap.exists()){
+          const data=snap.data();
+          folders=data.folders||[UNCATEGORIZED];
+          todos=(data.todos||[]).map(t=>({text:t.text,done:t.done||false,folder:t.folder||UNCATEGORIZED,priority:t.priority||'none'}));
+          archivedTodos=data.archivedTodos||[];
+          archivedFolders=data.archivedFolders||[];
+          archivedTodos.forEach(t=>{if(t.archivedAsFolder&&t.folder&&!archivedFolders.includes(t.folder))archivedFolders.push(t.folder);});
         }
         sortFolders();
-        lastSavedData = JSON.stringify([folders, todos, archivedTodos, archivedFolders]);
+        lastSavedData=JSON.stringify([folders,todos,archivedTodos,archivedFolders]);
         render();
       });
     } else {
-      document.getElementById('loginScreen').style.display = 'flex';
-      document.getElementById('mainWrapper').style.display = 'none';
-      currentDataRef = null;
-      if (unsubSnap) { unsubSnap(); unsubSnap = null; }
+      document.getElementById('loginScreen').style.display='flex';
+      document.getElementById('mainWrapper').style.display='none';
+      currentDataRef=null;
+      if(unsubSnap){unsubSnap();unsubSnap=null;}
     }
   });
 </script>
