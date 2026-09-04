@@ -135,7 +135,7 @@
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
       Googleでログイン
     </button>
-    <p id="loginError" style="color:#e55;font-size:0.8rem;margin-top:16px;display:none">ログインに失敗しました。もう一度お試しください。</p>
+    <p id="loginError" style="color:#e55;font-size:0.8rem;margin-top:16px;display:none">エラー：</p>
   </div>
 </div>
 
@@ -217,18 +217,19 @@
   let lastSavedData  = '';
   let unsubSnap      = null;
 
-  // リダイレクトログイン後の結果を処理
   getRedirectResult(auth).catch(() => {});
 
   document.getElementById('loginBtn').onclick = async () => {
-    document.getElementById('loginError').style.display = 'none';
+    const errEl = document.getElementById('loginError');
+    errEl.style.display = 'none';
     try {
       await signInWithPopup(auth, provider);
     } catch (e) {
-      if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user') {
+      if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
         signInWithRedirect(auth, provider);
       } else {
-        document.getElementById('loginError').style.display = 'block';
+        errEl.textContent = 'エラーコード：' + (e.code || e.message);
+        errEl.style.display = 'block';
       }
     }
   };
@@ -558,7 +559,6 @@
           todos=(data.todos||[]).map(t=>({text:t.text,done:t.done||false,folder:t.folder||UNCATEGORIZED,priority:t.priority||'none'}));
           archivedTodos=data.archivedTodos||[];
           archivedFolders=data.archivedFolders||[];
-          archivedTodos.forEach(t=>{if(t.archivedAsFolder&&t.folder&&!archivedFolders.includes(t.folder))archivedFolders.push(t.folder);});
         }
         sortFolders();
         lastSavedData=JSON.stringify([folders,todos,archivedTodos,archivedFolders]);
